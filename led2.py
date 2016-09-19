@@ -22,6 +22,8 @@ for x in range(1, interations+1):
 	print "Loop %d: LED on" % (x)
 	# This turns the port you specified on:
 	GPIO.output(pina, GPIO.HIGH)
+	# By removing this "sleep" you can turn on both simultaneously
+	# instead of the "cascade" effect
 	time.sleep(interval)
 	GPIO.output(pinb, GPIO.HIGH)
 	time.sleep(interval)
@@ -29,6 +31,8 @@ for x in range(1, interations+1):
 	print "Loop %d: LED off" % (x)
 	# This turns it off:
 	GPIO.output(pina, GPIO.LOW)
+	# As above - remove this to turn off both lights at the same time
+	# to prevent the "cascade" effect
 	time.sleep(interval)
 	GPIO.output(pinb, GPIO.LOW)
 	time.sleep(interval)
