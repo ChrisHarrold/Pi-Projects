@@ -13,15 +13,24 @@ getcontext().prec = 4
 # Startup message
 print "Preparing to monitor sound levels"
 
-# Set our variables and pin assignments
-input_digital = 18
+# Set our pin assignments
+sensor_in = 18
 red_led = 21
 green_led = 20
+
+#Simple sting for printing an output on detection - can be removed
 Is_Loud = "No"
+
+#various counters used for determining the thresholds for sensitivity and detection
+#as well as the time of the loop and frequency for debugging
 Loud_Count = 0
 loop_count = 0
 per_detected = 0
 time_loop = 15
+
+# Max loop is determined by the tuning exercise I describe in my blog video
+# at linkedin.com/in/chrisharrold - look for the post on detection tuning
+max_loop = 30000
 
 # This value is the final threshold where the system will take action
 # it is the value of the number of times loud sound was detected
@@ -38,7 +47,7 @@ interval = .5
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(red_led, GPIO.OUT)
 GPIO.setup(green_led, GPIO.OUT)
-GPIO.setup(input_digital, GPIO.IN)
+GPIO.setup(sensor_in, GPIO.IN)
 
 # Make sure the pins start off in the LOW state
 GPIO.output(green_led, GPIO.LOW)
@@ -68,14 +77,15 @@ try:
 	#	
 	# You can remove this version once the sensitivity is reliable:
 
-	t_end = time.time() + time_loop
-	while time.time() < t_end:
+	# t_end = time.time() + time_loop
+	# while time.time() < t_end:
 	
 	# This version simply loops for eternity unless ctrl-c is pressed
-	# or the threshold value is exceeded
-	# and should be your "production" version of the loop:
+	# and should be your "production" version of the loop based on your
+	# tuning results and the length of the loop that matches your sensitivity needs
+	# my happy default is 30k loops or about 5 seconds:
 	
-	# while per_detected < a_threshold:
+	while loop_count < max_loop
 
 	# Now we get to the actual loop and start detecting sound
 		
@@ -85,7 +95,7 @@ try:
 		
 		# If sound is loud enough, the GPIO PIN will switch state to HIGH
 		# record the occurance and add it to the count for computation
-		if GPIO.input(input_digital) == GPIO.HIGH:
+		if GPIO.input(sensor_in) == GPIO.HIGH:
 			Is_Loud = "Loudness Detected"
 			Loud_Count = Loud_Count + 1
 
@@ -103,6 +113,12 @@ try:
 		else:
 			GPIO.output(red_led, GPIO.LOW)
 
+		# Lastly for the main body, we catch our loop count before it gets to max_loop
+		# and reset it to keep everything running, and our math accurate:
+		if loop_count = max_loop:
+			loop_count = 0
+			
+
 except (KeyboardInterrupt, SystemExit):
 	
 	#If the system is interrupted (ctrl-c) this will print the final values
@@ -115,7 +131,6 @@ except (KeyboardInterrupt, SystemExit):
 	print " "
 	print "Total Noises Detected: " + str(Loud_Count)
 	print " "
-	print " "
 	print "Total loops run: " + str(loop_count)
 	print " "
 	print "-------------------------------------------"
@@ -126,7 +141,7 @@ else:
 	GPIO.cleanup()
 
         # You can remove this entire block once you go to "production" mode
-	# but these values are critical for the initial tuning phase.
+		# but these values are critical for the initial tuning phase.
         print "-------------------------------------------"
         print " "
         print "System Reset on Keyboard Command or SysExit"
@@ -134,7 +149,6 @@ else:
         print "Final Detection was " + str(Is_Loud)
         print " "
         print "Total Noises Detected: " + str(Loud_Count)
-        print " "
         print " "
         print "Total loops run: " + str(loop_count)
         print " "
