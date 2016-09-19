@@ -115,7 +115,7 @@ try:
 
 		# Lastly for the main body, we catch our loop count before it gets to max_loop
 		# and reset it to keep everything running, and our math accurate:
-		if loop_count = max_loop:
+		if loop_count == max_loop:
 			loop_count = 0
 			
 
