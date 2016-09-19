@@ -85,7 +85,7 @@ try:
 	# tuning results and the length of the loop that matches your sensitivity needs
 	# my happy default is 30k loops or about 5 seconds:
 	
-	while loop_count < max_loop
+	while loop_count < max_loop:
 
 	# Now we get to the actual loop and start detecting sound
 		
