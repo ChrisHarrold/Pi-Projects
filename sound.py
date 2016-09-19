@@ -114,9 +114,11 @@ try:
 			GPIO.output(red_led, GPIO.LOW)
 
 		# Lastly for the main body, we catch our loop count before it gets to max_loop
-		# and reset it to keep everything running, and our math accurate:
+		# and reset everything to keep everything running, and our math accurate:
 		if loop_count == max_loop:
 			loop_count = 0
+			per_detected = 0
+			Loud_Count = 0
 			
 
 except (KeyboardInterrupt, SystemExit):
