@@ -4,7 +4,7 @@
  </head>
  <body>
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/mootools/1.2.4/mootools-yui-compressed.js"></script>
+  <script type="text/javascript" src="https://192.168.1.63/level.js"></script>
   <script type="text/javascript">
   
     google.charts.load('current', {'packages':['gauge']});
@@ -12,8 +12,6 @@
     var gaugeOptions = {min: 0, max: .01, yellowFrom: .007, yellowTo: .009,
       redFrom: .009, redTo: .01, minorTicks: 5};
     var gauge;
-	int_level = 0
-
 	
     function drawGauge() {
       gaugeData = new google.visualization.DataTable();
