@@ -25,6 +25,7 @@ web_file = "/var/www/html/level.js"
 Loud_Count = 0
 loop_count = 0
 per_detected = 0
+events_detected = 0
 time_loop = 15
 
 # Max loop is determined by the tuning exercise I describe in my blog video
@@ -111,7 +112,10 @@ try:
 		# have we hit our threshold yet?		 
 		per_detected = Decimal(Loud_Count) / Decimal(loop_count)
 		print "Detect vs Threshold: " + str(per_detected) + " / " + str(a_threshold)
-		# write it to the .js file for web display either way
+		
+		# write it to the .js file for web display if per_detected is high enough to trigger
+		# the output otherwise, just leave it alone (saves CPU but causes a minor 'bleed'
+		# where the last per_detected could be displayed for a long time
 		if per_detected > 0:
 			with open(web_file + '.new', 'w') as f_output:
    				f_output.write("var int_level = " + str(per_detected))
