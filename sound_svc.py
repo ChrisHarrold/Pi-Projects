@@ -112,10 +112,10 @@ try:
 		per_detected = Decimal(Loud_Count) / Decimal(loop_count)
 		print "Detect vs Threshold: " + str(per_detected) + " / " + str(a_threshold)
 		# write it to the .js file for web display either way
-		with open(web_file + '.new', 'w') as f_output:
-   			f_output.write("var int_level = " + str(per_detected))
-
-			os.rename(web_file + '.new', web_file)
+		if per_detected > 0:
+			with open(web_file + '.new', 'w') as f_output:
+   				f_output.write("var int_level = " + str(per_detected))
+				os.rename(web_file + '.new', web_file)
 		
 		# Lets see if we have actually detected a sound that meets the
 		# threshold? If so, we will turn on the red light and it will stay on
