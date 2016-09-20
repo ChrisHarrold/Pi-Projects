@@ -59,7 +59,7 @@ print "Readying Web Output File"
 # Opens and preps the HTML file for the first time. Will remove anything it
 # finds in the file and prep it with this default:
 with open(web_file, 'w') as f_output:
-	f_output.write("var int_level = " + per_detected)
+	f_output.write("var int_level = ", per_detected)
 	f_output.close()
 
 print "GPIO set. Service starting. Press ctrl-c to break"
@@ -111,7 +111,7 @@ try:
 		print "Detect vs Threshold: " + str(per_detected) + " / " + str(a_threshold)
 		# write it to the .js file for web display either way
 		with open(web_file, 'w') as f_output:
-			f_output.write("var int_level = " + per_detected)
+			f_output.write("var int_level = ", per_detected)
 			f_output.close()
 		
 		# Lets see if we have actually detected a sound that meets the
