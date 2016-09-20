@@ -5,21 +5,19 @@ from decimal import *
 import math
 getcontext().prec = 4
 
-# I will be outputting to a website for a real-time view of noise detection events
-# This is the placeholder code for that
-#with open('/var/www/html/sound.html', 'w') as the_file:
-#	the_file.write('<H1>This is more usefull stuff</H1>\n')
-
 # Startup message
 print "Preparing to monitor sound levels"
-
+	
 # Set our pin assignments
 sensor_in = 18
 red_led = 21
 green_led = 20
 
-#Simple sting for printing an output on detection - can be removed
+#Simple sting for printing an output on detection - can be removed for quiet running
 Is_Loud = "No"
+
+# Web output settings:
+web_file = "/var/www/html/sound.html"
 
 #various counters used for determining the thresholds for sensitivity and detection
 #as well as the time of the loop and frequency for debugging
@@ -56,6 +54,13 @@ GPIO.output(red_led, GPIO.LOW)
 # Then turn on the green - no noise light - and confirm system is online.
 GPIO.output(green_led, GPIO.HIGH)
 GPIO.output(red_led, GPIO.LOW)
+
+print "Readying Web Output File"
+# Opens and preps the HTML file for the first time. Will remove anything it
+# finds in the file.
+with open(web_file, 'w') as f_output:
+	f_output.writelines(['<H1>This is more usefull stuff</H1>','This is also useful'])
+
 print "GPIO set. Service starting. Press ctrl-c to break"
 
 # Main try block to handle the exception conditions
