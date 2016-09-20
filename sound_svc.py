@@ -1,5 +1,6 @@
 # Import libraries used in this program
 import RPi.GPIO as GPIO
+import os, sys
 import time
 from decimal import *
 import math
