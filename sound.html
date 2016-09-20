@@ -13,22 +13,7 @@
       redFrom: .009, redTo: .01, minorTicks: 5};
     var gauge;
 	int_level = 0
-		
-	//This event is called when the DOM is fully loaded
-	window.addEvent("domready",function(){
-		//Creating a new AJAX request that will request 'test.csv' from the current directory
-		var level_check = new Request({
-			url:"http://192.168.1.63/levels.txt",
-			onSuccess:function(response){
-				//The response text is available in the 'response' variable
-				//Set the value of the textarea with the id 'csvResponse' to the response
-				$(level_check).value = response;
-			}
-		}).send(); //Don't forget to send our request!
-	});
 
-	response.write(level_check.value)
-	response.write (+ & level_check.value)
 	
     function drawGauge() {
       gaugeData = new google.visualization.DataTable();
