@@ -19,8 +19,8 @@ Is_Loud = "No"
 # Web output settings:
 web_file = "/var/www/html/sound.html"
 
-#various counters used for determining the thresholds for sensitivity and detection
-#as well as the time of the loop and frequency for debugging
+# Various counters used for determining the thresholds for sensitivity and detection
+# as well as the time of the loop and frequency for debugging
 Loud_Count = 0
 loop_count = 0
 per_detected = 0
@@ -57,9 +57,9 @@ GPIO.output(red_led, GPIO.LOW)
 
 print "Readying Web Output File"
 # Opens and preps the HTML file for the first time. Will remove anything it
-# finds in the file.
+# finds in the file and prep it with this header:
 with open(web_file, 'w') as f_output:
-	f_output.writelines(['<H1>This is more usefull stuff</H1>','This is also useful'])
+	f_output.writelines(['<html>','<head>','<meta http-equiv="refresh" content="5">'])
 
 print "GPIO set. Service starting. Press ctrl-c to break"
 
@@ -128,8 +128,8 @@ try:
 
 except (KeyboardInterrupt, SystemExit):
 	
-	#If the system is interrupted (ctrl-c) this will print the final values
-	#so that you have at least some idea of what happened
+	# If the system is interrupted (ctrl-c) this will print the final values
+	# so that you have at least some idea of what happened
 	print "-------------------------------------------"
 	print " "
 	print "System Reset on Keyboard Command or SysExit"

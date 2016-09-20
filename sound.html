@@ -1,0 +1,45 @@
+<html>
+ <head>
+  <meta http-equiv="refresh" content="5">
+ </head>
+ <body>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/mootools/1.2.4/mootools-yui-compressed.js"></script>
+  <script type="text/javascript">
+  
+    google.charts.load('current', {'packages':['gauge']});
+    google.charts.setOnLoadCallback(drawGauge);
+    var gaugeOptions = {min: 0, max: .01, yellowFrom: .007, yellowTo: .009,
+      redFrom: .009, redTo: .01, minorTicks: 5};
+    var gauge;
+	int_level = 0
+		
+	//This event is called when the DOM is fully loaded
+	window.addEvent("domready",function(){
+		//Creating a new AJAX request that will request 'test.csv' from the current directory
+		var level_check = new Request({
+			url:"http://192.168.1.63/levels.txt",
+			onSuccess:function(response){
+				//The response text is available in the 'response' variable
+				//Set the value of the textarea with the id 'csvResponse' to the response
+				$(level_check).value = response;
+			}
+		}).send(); //Don't forget to send our request!
+	});
+
+	response.write(level_check.value)
+	response.write (+ & level_check.value)
+	
+    function drawGauge() {
+      gaugeData = new google.visualization.DataTable();
+      gaugeData.addColumn('number', 'Level');
+      gaugeData.addRows(2);
+      gaugeData.setCell(0, 0, int_level);
+
+      gauge = new google.visualization.Gauge(document.getElementById('gauge_div'));
+      gauge.draw(gaugeData, gaugeOptions);
+    }
+  </script>
+  <div id="gauge_div" style="width:400px; height: 200px;" align=center></div>
+ </body>
+</html>
