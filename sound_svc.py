@@ -17,7 +17,7 @@ green_led = 20
 Is_Loud = "No"
 
 # Web output settings:
-web_file = "/var/www/html/sound.html"
+web_file = "/var/www/html/level.js"
 
 # Various counters used for determining the thresholds for sensitivity and detection
 # as well as the time of the loop and frequency for debugging
@@ -57,9 +57,10 @@ GPIO.output(red_led, GPIO.LOW)
 
 print "Readying Web Output File"
 # Opens and preps the HTML file for the first time. Will remove anything it
-# finds in the file and prep it with this header:
+# finds in the file and prep it with this default:
 with open(web_file, 'w') as f_output:
-	f_output.writelines(['<html>','<head>','<meta http-equiv="refresh" content="5">'])
+	f_output.write("var int_level = " + per_detected)
+	f_output.close()
 
 print "GPIO set. Service starting. Press ctrl-c to break"
 
@@ -107,7 +108,11 @@ try:
 		
 		# have we hit our threshold yet?		 
 		per_detected = Decimal(Loud_Count) / Decimal(loop_count)
-		print "Detect vs Threshold: " + str(per_detected) + " / " + str(a_threshold) 
+		print "Detect vs Threshold: " + str(per_detected) + " / " + str(a_threshold)
+		# write it to the .js file for web display either way
+		with open(web_file, 'w') as f_output:
+			f_output.write("var int_level = " + per_detected)
+			f_output.close()
 		
 		# Lets see if we have actually detected a sound that meets the
 		# threshold? If so, we will turn on the red light and it will stay on
