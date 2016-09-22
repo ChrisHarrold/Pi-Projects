@@ -142,6 +142,7 @@ try:
 			Loud_Count = 0
 			with open(web_file + '.new', 'w') as f_output:
     				f_output.write("var int_level = 0 ")
+    				os.rename(web_file + '.new', web_file)
 			
 
 except (KeyboardInterrupt, SystemExit):
