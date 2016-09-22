@@ -139,8 +139,8 @@ try:
 			loop_count = 0
 			per_detected = 0
 			Loud_Count = 0
-			with open(web_file + '.new', 'w') as f_output:
-    			f_output.write("var int_level = " + str(per_detected))
+				with open(web_file + '.new', 'w') as f_output:
+    				f_output.write("var int_level = " + str(per_detected))
 			
 
 except (KeyboardInterrupt, SystemExit):
