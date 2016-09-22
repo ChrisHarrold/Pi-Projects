@@ -111,6 +111,8 @@ try:
 		
 		# have we hit our threshold yet?		 
 		per_detected = Decimal(Loud_Count) / Decimal(loop_count)
+		# You can un-remark this line and print the detected and threshold value each loop
+		# which is useful for the debugging, but takes cycles away from computation
 		print "Detect vs Threshold: " + str(per_detected) + " / " + str(a_threshold)
 		
 		# write it to the .js file for web display if per_detected is high enough to trigger
@@ -133,9 +135,12 @@ try:
 		# Lastly for the main body, we catch our loop count before it gets to max_loop
 		# and reset everything to keep everything running, and our math accurate:
 		if loop_count == max_loop:
+			print "System is listening"
 			loop_count = 0
 			per_detected = 0
 			Loud_Count = 0
+			with open(web_file + '.new', 'w') as f_output:
+    			f_output.write("var int_level = " + str(per_detected))
 			
 
 except (KeyboardInterrupt, SystemExit):
