@@ -111,9 +111,10 @@ try:
 		
 		# have we hit our threshold yet?		 
 		per_detected = Decimal(Loud_Count) / Decimal(loop_count)
-		# You can un-remark this line and print the detected and threshold value each loop
+		# You can un-remark the line to print the detected and threshold value each loop
 		# which is useful for the debugging, but takes cycles away from computation
-		print "Detect vs Threshold: " + str(per_detected) + " / " + str(a_threshold)
+		
+		#print "Detect vs Threshold: " + str(per_detected) + " / " + str(a_threshold)
 		
 		# write it to the .js file for web display if per_detected is high enough to trigger
 		# the output otherwise, just leave it alone (saves CPU but causes a minor 'bleed'
