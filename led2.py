@@ -4,7 +4,7 @@ import time
 
 # Set which pins we will use (adjust for your settings)
 pina = 21
-pinb = 6
+pinb = 20
 
 # How many blinks and how far apart?
 interations = 10
