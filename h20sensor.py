@@ -51,7 +51,7 @@ with open(data_file + '.new', 'a') as f_output:
 
 # Main program loop.
 try:
-	
+
 	while True:
 		print('Preparing to monitor soil moisture level')
 		if loops < 3 then:
