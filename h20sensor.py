@@ -52,11 +52,12 @@ with open(data_file + '.new', 'a') as f_output:
 
 # Primary monitor is a "while" loop that will keep the monitor running 
 # indefinitely as a soft service.
+print('Preparing to monitor soil moisture level')
 try:
 	pass
 	#Really?
 	while True:
-		print('Preparing to monitor soil moisture level')
+
 		
 		# turn on the soil monitor sensor - done to avoid premature burnout due to
 		# electrolysis corrosion
@@ -82,8 +83,8 @@ try:
 		GPIO.output(power_pin, GPIO.LOW)
 		
 		# settle in and sleep until the next time to poll the sensor
-		print "sleeping for 30 seconds"
-		time.sleep(30)
+		print "sleeping for 1 seconds"
+		time.sleep(1)
 			
 
 except (KeyboardInterrupt, SystemExit):
