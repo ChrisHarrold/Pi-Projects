@@ -52,29 +52,29 @@ with open(data_file + '.new', 'a') as f_output:
 # Main try block to handle the exception conditions
 try:
     while True:
-		print('Preparing to monitor soil moisture level')
-		if loops < 3 then:
-    		GPIO.output(power_pin, GPIO.HIGH)
-    		# The read_adc function will get the value of the sensor_pin
-        	voltage_lvl = mcp.read_adc(sensor_pin)
-        	localtime = time.asctime( time.localtime(time.time()) )
-        	f_output.write("" + localtime + "," + str(voltage_lvl) + "")
-        	print"" + localtime + "," + str(voltage_lvl) + ""
-        	loops = loops + 1
-        
+        print('Preparing to monitor soil moisture level')
+        if loops < 3 then:
+            GPIO.output(power_pin, GPIO.HIGH)
+            # The read_adc function will get the value of the sensor_pin
+            voltage_lvl = mcp.read_adc(sensor_pin)
+            localtime = time.asctime( time.localtime(time.time()) )
+            f_output.write("" + localtime + "," + str(voltage_lvl) + "")
+            print"" + localtime + "," + str(voltage_lvl) + ""
+            loops = loops + 1
+
         else:
-        	loops = 0
-        	GPIO.output(power_pin, GPIO.LOW)
-        
+            loops = 0
+            GPIO.output(power_pin, GPIO.LOW)
+
         time.sleep(14400)
         
 except (KeyboardInterrupt, SystemExit):
-	
-	f_output.close()
-	GPIO.cleanup()
+
+    f_output.close()
+    GPIO.cleanup()
 
 else:
-	
-	f_output.close()
-	GPIO.cleanup()
+
+    f_output.close()
+    GPIO.cleanup()
 
