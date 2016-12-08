@@ -69,10 +69,11 @@ try:
 		localtime = time.asctime( time.localtime(time.time()) )
 		
 		# Write out to the log file
-		f_output.write("" + localtime + "," + str(voltage_lvl) + "")
+		with open(data_file + '.new', 'a') as f_output:
+			f_output.write("" + localtime + "," + str(voltage_lvl) + "")
 		
 		# Print to the stdout for debug
-		print"" + localtime + "," + str(voltage_lvl) + ""
+		print "" + localtime + "," + str(voltage_lvl) + ""
 		
 		# Increment the loop counter
 		loops = loops + 1
@@ -81,7 +82,8 @@ try:
 		GPIO.output(power_pin, GPIO.LOW)
 		
 		# settle in and sleep until the next time to poll the sensor
-		time.sleep(14400)
+		print "sleeping for 30 seconds"
+		time.sleep(30)
 			
 
 except (KeyboardInterrupt, SystemExit):
@@ -93,10 +95,8 @@ except (KeyboardInterrupt, SystemExit):
 	print "System Reset on Keyboard Command or SysExit"
 	print " "
 	print "-------------------------------------------"
-	f_output.close()
 	GPIO.cleanup()
 	
 else:
 	
-	f_output.close()
 	GPIO.cleanup()
