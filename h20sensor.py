@@ -1,39 +1,71 @@
-# Simple example of reading the MCP3008 analog input channels and printing
-# them all out.
-# Author: Tony DiCola
-# License: Public Domain
+#import all the usual suspects - GPIO, time, math just in case and the MCP3008 interface code
+import RPi.GPIO as GPIO
 import time
-
-# Import SPI library (for hardware SPI) and MCP3008 library.
+from decimal import *
+import math
+getcontext().prec = 4
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_MCP3008
 
-
-# Software SPI configuration:
+#I have chosen to use the hardware configuration for this project so this is here in case you choose
+#to go the software-based route:
 #CLK  = 18
 #MISO = 23
 #MOSI = 24
 #CS   = 25
 #mcp = Adafruit_MCP3008.MCP3008(clk=CLK, cs=CS, miso=MISO, mosi=MOSI)
 
-# Hardware SPI configuration:
+#These lines are for the hardware SPI config: 
 SPI_PORT   = 0
 SPI_DEVICE = 0
 mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
 
+power_pin = 18
+sensor_pin = 7
+loops = 0
 
-print('Reading MCP3008 values, press Ctrl-C to quit...')
-# Print nice channel column headers.
-print('| {0:>4} | {1:>4} | {2:>4} | {3:>4} | {4:>4} | {5:>4} | {6:>4} | {7:>4} |'.format(*range(8)))
-print('-' * 57)
+# Setup GPIO commands and power pin
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(power_pin, GPIO.OUT)
+
+# Make sure the power starts as off
+GPIO.output(power_pin, GPIO.LOW)
+
+# Opens and preps the data file for the first time. Will remove anything it
+# finds in the file and prep it with this default. :
+data_file = "/data/h20lvl.csv"
+with open(data_file + '.new', 'a') as f_output:
+
+
+
+# So the act of getting the moisture level is pretty simple, but there are some technical
+# reasons that are explained in the blog video about this project (linkedin.com/chrisharrold)
+# that means that it makes sense to check the water level as infrequently as possible.
+#
+# The main monitoring loop will simply power on the sensor, read the voltage, and record 
+# it to the data file. From there it 
+# can be used for comparison to observed plant performance over time to gauge the right 
+# level for the water for that plant. I plan to expand this in the future with temperature
+# and light sensing data so that the watering schedule can be established for the plants 
+# based on the environmentals as well as observed performance.
+
 # Main program loop.
-while True:
-    # Read all the ADC channel values in a list.
-    values = [0]*8
-    for i in range(8):
-        # The read_adc function will get the value of the specified channel (0-7).
-        values[i] = mcp.read_adc(i)
-    # Print the ADC values.
-    print('| {0:>4} | {1:>4} | {2:>4} | {3:>4} | {4:>4} | {5:>4} | {6:>4} | {7:>4} |'.format(*values))
-    # Pause for half a second.
-    time.sleep(0.5)
+try:
+
+	print('Preparing to monitor soil moisture level')
+	while True:
+		
+		if loops < 3 then:
+    		GPIO.output(power_pin, GPIO.HIGH)
+    		# The read_adc function will get the value of the sensor_pin
+        	voltage_lvl = mcp.read_adc(sensor_pin)
+        	localtime = time.asctime( time.localtime(time.time()) )
+        	f_output.write("" + localtime + "," + str(voltage_lvl) + "")
+        	print"" + localtime + "," + str(voltage_lvl) + ""
+        	loops = loops + 1
+        
+        else:
+        	loops = 0
+        	GPIO.output(power_pin, GPIO.LOW)
+        
+        time.sleep(14400)
