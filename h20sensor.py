@@ -50,8 +50,7 @@ with open(data_file + '.new', 'a') as f_output:
 # based on the environmentals as well as observed performance.
 
 # Main try block to handle the exception conditions
-try:	
-
+try:
     while True:
 		print('Preparing to monitor soil moisture level')
 		if loops < 3 then:
