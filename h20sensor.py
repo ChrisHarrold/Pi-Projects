@@ -50,31 +50,54 @@ with open(data_file + '.new', 'a') as f_output:
 # based on the environmentals as well as observed performance.
 
 # Main try block to handle the exception conditions
-try:
-    while True:
-        print('Preparing to monitor soil moisture level')
-        if loops < 3 then:
-            GPIO.output(power_pin, GPIO.HIGH)
-            # The read_adc function will get the value of the sensor_pin
-            voltage_lvl = mcp.read_adc(sensor_pin)
-            localtime = time.asctime( time.localtime(time.time()) )
-            f_output.write("" + localtime + "," + str(voltage_lvl) + "")
-            print"" + localtime + "," + str(voltage_lvl) + ""
-            loops = loops + 1
+try:	
 
-        else:
-            loops = 0
-            GPIO.output(power_pin, GPIO.LOW)
+    # Primary monitor is a "while" loop that will keep the monitor running 
+	# indefinitely as a soft service.
+	
+	while True:
+		print('Preparing to monitor soil moisture level')
+		
+		# turn on the soil monitor sensor - done to avoid premature burnout due to
+		# electrolysis corrosion
+		GPIO.output(power_pin, GPIO.HIGH)
+		
+		# Read the voltage from the sensor via the ADC chip
+		voltage_lvl = mcp.read_adc(sensor_pin)
+		
+		# Get the timestamp for the log entry
+		localtime = time.asctime( time.localtime(time.time()) )
+		
+		# Write out to the log file
+		f_output.write("" + localtime + "," + str(voltage_lvl) + "")
+		
+		# Print to the stdout for debug
+		print"" + localtime + "," + str(voltage_lvl) + ""
+		
+		# Increment the loop counter
+		loops = loops + 1
+		
+		# Turn the sensor off
+		GPIO.output(power_pin, GPIO.LOW)
+		
+		# settle in and sleep until the next time to poll the sensor
+		time.sleep(14400)
+			
 
-        time.sleep(14400)
-        
 except (KeyboardInterrupt, SystemExit):
-
-    f_output.close()
-    GPIO.cleanup()
+	
+	f_output.close()
+	GPIO.cleanup()
+	
+	# You can remove this entire block once you go to "production" mode
+	# but these values are useful for the initial tuning phase.
+    print "-------------------------------------------"
+    print " "
+    print "System Reset on Keyboard Command or SysExit"
+    print " "
+    print "-------------------------------------------"
 
 else:
-
-    f_output.close()
-    GPIO.cleanup()
-
+	
+	f_output.close()
+	GPIO.cleanup()
