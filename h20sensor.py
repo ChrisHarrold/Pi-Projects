@@ -52,7 +52,7 @@ with open(data_file + '.new', 'a') as f_output:
 # Main try block to handle the exception conditions
 try:	
 
-	while True:
+    while True:
 		print('Preparing to monitor soil moisture level')
 		if loops < 3 then:
     		GPIO.output(power_pin, GPIO.HIGH)
