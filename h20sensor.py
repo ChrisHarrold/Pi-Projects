@@ -86,11 +86,13 @@ try:
 
 except (KeyboardInterrupt, SystemExit):
 	
-	# You can remove this entire block once you go to "production" mode
-	# but these values are useful for the initial tuning phase.
+	# If the system is interrupted (ctrl-c) this will print the final values
+	# so that you have at least some idea of what happened
 	print "-------------------------------------------"
-    print "System Reset on Keyboard Command or SysExit"
-    print "-------------------------------------------"
+	print " "
+	print "System Reset on Keyboard Command or SysExit"
+	print " "
+	print "-------------------------------------------"
 	f_output.close()
 	GPIO.cleanup()
 	
