@@ -62,6 +62,7 @@ try:
 		# turn on the soil monitor sensor - done to avoid premature burnout due to
 		# electrolysis corrosion
 		GPIO.output(power_pin, GPIO.HIGH)
+		time.sleep(10)
 		
 		# Read the voltage from the sensor via the ADC chip
 		voltage_lvl = mcp.read_adc(sensor_pin)
