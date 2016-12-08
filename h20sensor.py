@@ -52,7 +52,7 @@ with open(data_file + '.new', 'a') as f_output:
 # Primary monitor is a "while" loop that will keep the monitor running 
 # indefinitely as a soft service.
 try:
-	pass
+    pass
 	#Really?
 	while True:
 		print('Preparing to monitor soil moisture level')
