@@ -35,7 +35,7 @@ GPIO.output(power_pin, GPIO.LOW)
 # finds in the file and prep it with this default. :
 data_file = "/data/h20lvl.csv"
 with open(data_file + '.new', 'a') as f_output:
-	f_output.write("timestamp,value")
+	f_output.write("timestamp,value\n")
 
 
 
@@ -72,7 +72,7 @@ try:
 		
 		# Write out to the log file
 		with open(data_file + '.new', 'a') as f_output:
-			f_output.write("" + localtime + "," + str(voltage_lvl) + "")
+			f_output.write("" + localtime + "," + str(voltage_lvl) + "\n")
 		
 		# Print to the stdout for debug
 		print "" + localtime + "," + str(voltage_lvl) + ""
