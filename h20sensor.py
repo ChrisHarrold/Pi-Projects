@@ -51,10 +51,9 @@ with open(data_file + '.new', 'a') as f_output:
 
 # Main program loop.
 try:
-
-	print('Preparing to monitor soil moisture level')
+	
 	while True:
-		
+		print('Preparing to monitor soil moisture level')
 		if loops < 3 then:
     		GPIO.output(power_pin, GPIO.HIGH)
     		# The read_adc function will get the value of the sensor_pin
@@ -69,3 +68,14 @@ try:
         	GPIO.output(power_pin, GPIO.LOW)
         
         time.sleep(14400)
+        
+except (KeyboardInterrupt, SystemExit):
+	
+	f_output.close()
+	GPIO.cleanup()
+
+else:
+	
+	f_output.close()
+	GPIO.cleanup()
+
