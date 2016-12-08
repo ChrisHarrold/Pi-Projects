@@ -49,12 +49,9 @@ with open(data_file + '.new', 'a') as f_output:
 # and light sensing data so that the watering schedule can be established for the plants 
 # based on the environmentals as well as observed performance.
 
-# Main try block to handle the exception conditions
-try:	
-
-    # Primary monitor is a "while" loop that will keep the monitor running 
-	# indefinitely as a soft service.
-	
+# Primary monitor is a "while" loop that will keep the monitor running 
+# indefinitely as a soft service.
+try:
 	while True:
 		print('Preparing to monitor soil moisture level')
 		
