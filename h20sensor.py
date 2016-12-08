@@ -35,6 +35,7 @@ GPIO.output(power_pin, GPIO.LOW)
 # finds in the file and prep it with this default. :
 data_file = "/data/h20lvl.csv"
 with open(data_file + '.new', 'a') as f_output:
+	f_output.write("timestamp,value")
 
 
 
