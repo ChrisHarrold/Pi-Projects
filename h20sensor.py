@@ -91,11 +91,11 @@ except (KeyboardInterrupt, SystemExit):
 	
 	# You can remove this entire block once you go to "production" mode
 	# but these values are useful for the initial tuning phase.
-    print "-------------------------------------------"
-    print " "
-    print "System Reset on Keyboard Command or SysExit"
-    print " "
-    print "-------------------------------------------"
+		print "-------------------------------------------"
+    	print " "
+    	print "System Reset on Keyboard Command or SysExit"
+    	print " "
+    	print "-------------------------------------------"
 
 else:
 	
