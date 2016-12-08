@@ -49,8 +49,8 @@ with open(data_file + '.new', 'a') as f_output:
 # and light sensing data so that the watering schedule can be established for the plants 
 # based on the environmentals as well as observed performance.
 
-# Main program loop.
-try:
+# Main try block to handle the exception conditions
+try:	
 
 	while True:
 		print('Preparing to monitor soil moisture level')
