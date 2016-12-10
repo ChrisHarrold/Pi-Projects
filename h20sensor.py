@@ -73,7 +73,7 @@ try:
 		# The voltage from the light sensor is lower the more light that hits the sensor
 		# the lower the voltage read will be. Around 800 seems to be the sweet spot for
 		# dark enough to be considered "night".
-		if int("light_lvl") < 800:
+		if (light_lvl < 800):
 		
 			# Read the voltage from the H20 and temp sensor via the ADC chip
 			voltage_lvl = mcp.read_adc(h20_pin)
