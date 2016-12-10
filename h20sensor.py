@@ -27,8 +27,7 @@ light_pin = 0
 temp_pin = 3
 loops = 0
 
-# Setup GPIO commands, cleanup just in case, and enable the power pin
-GPIO.cleanup()
+# Setup GPIO commands and enable the power pin
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(power_pin, GPIO.OUT)
 
@@ -80,8 +79,8 @@ try:
 			temp = mcp.read_adc(temp_pin)
 			
 			# Now we convert the voltage to a temperature
-			temp = (temp * 0.004882814)
-			temp = ((temp - .5) * 100)
+			temp = (temp / 205)
+			temp = ((temp * 100) - 50)
 			
 			# Get the timestamp for the log entry
 			localtime = time.asctime( time.localtime(time.time()) )
