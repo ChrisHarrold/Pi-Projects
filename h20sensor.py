@@ -27,7 +27,8 @@ light_pin = 0
 temp_pin = 3
 loops = 0
 
-# Setup GPIO commands and power pin
+# Setup GPIO commands, cleanup just in case, and enable the power pin
+GPIO.cleanup()
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(power_pin, GPIO.OUT)
 
@@ -87,10 +88,10 @@ try:
 		
 			# Write out to the log file
 			with open(data_file + '.new', 'a') as f_output:
-				f_output.write("" + localtime + "," + str(voltage_lvl) + "," + temp + "\n")
+				f_output.write("" + localtime + "," + str(voltage_lvl) + "," + str(temp) + "\n")
 		
 			# Print to the stdout for debug
-			print "Date and time: " + localtime + " H20 Level: " + str(voltage_lvl) + " Temp: " + temp + ""
+			print "Date and time: " + localtime + " H20 Level: " + str(voltage_lvl) + " Temp: " + str(temp) + ""
 		
 			# Increment the loop counter
 			loops = loops + 1
