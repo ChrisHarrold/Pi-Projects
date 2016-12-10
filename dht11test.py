@@ -21,4 +21,4 @@ while True:
     else:
     	print("I gots no data")
 
-    time.sleep(1)
+    time.sleep(5)

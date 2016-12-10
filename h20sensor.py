@@ -89,6 +89,7 @@ try:
 			# and because the DHT11 returns humidity and temp natively with no BS formulas
 			# so I am using that now. Here we read the data using the temp_pin variable
 			instance = dht11.DHT11(pin=temp_pin)
+			
 			# The dht11 is better than the crappy thermistor, BUT it has a tendency to not answer
 			# the first attempt at reading it's data. In order to loop until we get a good reading
 			# we have to artificially loop the call to the DHT11 reader function.
@@ -127,8 +128,8 @@ try:
 		GPIO.output(power_pin, GPIO.LOW)
 		
 		# settle in and sleep until the next time to poll the sensor
-		print "sleeping for 1 seconds"
-		time.sleep(1)
+		# print "sleeping for 1 seconds"
+		time.sleep(14400)
 			
 
 except (KeyboardInterrupt, SystemExit):
