@@ -80,8 +80,8 @@ try:
 			temp = mcp.read_adc(temp_pin)
 			
 			# Now we convert the voltage to a temperature
-			temp = (temp * (5000/1024))
-			temp = ((temp - 500) / 10)
+			temp = (temp * 0.004882814)
+			temp = ((temp - .5) * 100)
 			
 			# Get the timestamp for the log entry
 			localtime = time.asctime( time.localtime(time.time()) )
