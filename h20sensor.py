@@ -75,6 +75,7 @@ try:
 		# dark enough to be considered "night".
 		if (light_lvl < 800):
 		
+			print "Sun's out! Checking H20 Level:"
 			# Read the voltage from the H20 and temp sensor via the ADC chip
 			voltage_lvl = mcp.read_adc(h20_pin)
 			temp = mcp.read_adc(temp_pin)
@@ -102,7 +103,7 @@ try:
 				f_output.write("" + localtime + "," + str(voltage_lvl) + "," + str(temp) + "\n")
 		
 			# Print to the stdout for debug
-			print "Date and time: " + localtime + " H20 Level: " + str(voltage_lvl) + " Temp: " + str(temp) + ""
+			print "On " + localtime + " The H20 Level is: " + str(voltage_lvl) + " And the temp is: " + str(temp) + ""
 		
 			# Increment the loop counter
 			loops = loops + 1
