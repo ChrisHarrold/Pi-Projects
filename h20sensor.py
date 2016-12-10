@@ -9,6 +9,7 @@ import Adafruit_MCP3008
 
 #I have chosen to use the hardware configuration for this project so this is here in case you choose
 #to go the software-based route:
+
 #CLK  = 18
 #MISO = 23
 #MOSI = 24
@@ -21,7 +22,9 @@ SPI_DEVICE = 0
 mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
 
 power_pin = 18
-sensor_pin = 7
+h20_pin = 7
+light_pin = 0
+temp_pin = 3
 loops = 0
 
 # Setup GPIO commands and power pin
@@ -35,50 +38,62 @@ GPIO.output(power_pin, GPIO.LOW)
 # finds in the file and prep it with this default. :
 data_file = "/data/h20lvl.csv"
 with open(data_file + '.new', 'a') as f_output:
-	f_output.write("timestamp,value\n")
+	f_output.write("timestamp,h20_value,temp_value\n")
 
 
 
 # So the act of getting the moisture level is pretty simple, but there are some technical
 # reasons that are explained in the blog video about this project (linkedin.com/chrisharrold)
-# that means that it makes sense to check the water level as infrequently as possible.
-#
-# The main monitoring loop will simply power on the sensor, read the voltage, and record 
-# it to the data file. From there it 
-# can be used for comparison to observed plant performance over time to gauge the right 
-# level for the water for that plant. I plan to expand this in the future with temperature
-# and light sensing data so that the watering schedule can be established for the plants 
-# based on the environmentals as well as observed performance.
+# that means that it makes sense to check the water level as infrequently as possible. This
+# will then turn on the entire sensor pack (temp, light, and water) and then run the collect
+# code if the light level is bright enough to be considered "daytime" 
 
 # Primary monitor is a "while" loop that will keep the monitor running 
 # indefinitely as a soft service.
 print('Preparing to monitor soil moisture level')
 try:
-	pass
-	#Really?
-	while True:
 
+	while True:
 		
-		# turn on the soil monitor sensor - done to avoid premature burnout due to
+		# turn on the sensor pack - done to avoid premature burnout due to
 		# electrolysis corrosion
 		GPIO.output(power_pin, GPIO.HIGH)
-		time.sleep(10)
 		
-		# Read the voltage from the sensor via the ADC chip
-		voltage_lvl = mcp.read_adc(sensor_pin)
+		# I noticed that trying to read the voltage right after turning on the juice created
+		# really variable readings that were obviously caused by the "bounce" of the power
+		# coming on to the sensors, so I have it turn on and wait so that it can normalize
+		time.sleep(5)
 		
-		# Get the timestamp for the log entry
-		localtime = time.asctime( time.localtime(time.time()) )
+		# We need to check if it is dark out. The rationale is that overnight the evaporation
+		# rate is slowed due to the cooler temp so it is not as important to check the level
+		# which also means that we spare the sensor from additional electrolysis effect
+		light_lvl = mcp.read_adc(light_pin)
 		
-		# Write out to the log file
-		with open(data_file + '.new', 'a') as f_output:
-			f_output.write("" + localtime + "," + str(voltage_lvl) + "\n")
+		# The voltage from the light sensor is lower the more light that hits the sensor
+		# the lower the voltage read will be. Around 800 seems to be the sweet spot for
+		# dark enough to be considered "night".
+		if light_lvl < 800:
 		
-		# Print to the stdout for debug
-		print "" + localtime + "," + str(voltage_lvl) + ""
+			# Read the voltage from the H20 and temp sensor via the ADC chip
+			voltage_lvl = mcp.read_adc(sensor_pin)
+			temp = mcp.read_adc(temp_pin)
+			
+			# Now we convert the voltage to a temperature
+			temp = (temp * (5000/1024))
+			temp = ((temp - 500) / 10)
+			
+			# Get the timestamp for the log entry
+			localtime = time.asctime( time.localtime(time.time()) )
 		
-		# Increment the loop counter
-		loops = loops + 1
+			# Write out to the log file
+			with open(data_file + '.new', 'a') as f_output:
+				f_output.write("" + localtime + "," + str(voltage_lvl) + "," + temp + "\n")
+		
+			# Print to the stdout for debug
+			print "Date and time: " + localtime + " H20 Level: " + str(voltage_lvl) + " Temp: " + temp + ""
+		
+			# Increment the loop counter
+			loops = loops + 1
 		
 		# Turn the sensor off
 		GPIO.output(power_pin, GPIO.LOW)
