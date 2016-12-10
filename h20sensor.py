@@ -78,22 +78,11 @@ try:
 			print "Sun's out! Checking H20 Level:"
 			# Read the voltage from the H20 and temp sensor via the ADC chip
 			voltage_lvl = mcp.read_adc(h20_pin)
-			temp = mcp.read_adc(temp_pin)
+			double(raw_mv) = mcp.read_adc(temp_pin)
 			
-			# Now we convert the voltage to a temperature - the sensor I used goes from -55
-			# to 125 with 125 degrees and the voltage reading goes up with the temp
-			# so -55 = 0 and 125 = 1023 So we have to figure out based on the voltage
-			# what the temp is
-			#
-			# First, how far is our voltage reading from the voltage at 0. Since this is for 
-			# plants outdoors, I am cheating and ignoring below 0 temps. There are roughly
-			# 5.65 mv per degree, so zero degrees is 56 * 5.65mv or 316.4 - by subtracting
-			# this from the reading we see how "far" our reading is above zero
-			temp = (temp - 316.4)
-			
-			# Then we take that "distance" and divide it by the mv per degrees which
-			# yields the temperature in Celcius
-			temp = (temp / 5.65)
+			temp = log(((10240000/ram_mv) - 10000));
+			temp = 1 / (0.001129148 + (0.000234125 + (0.0000000876741 * temp * temp ))* temp );
+			temp = temp - 273.15;
 			
 			# Get the timestamp for the log entry
 			localtime = time.asctime( time.localtime(time.time()) )
