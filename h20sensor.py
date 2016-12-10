@@ -49,7 +49,7 @@ GPIO.output(power_pin, GPIO.LOW)
 # finds in the file and prep it with this default. :
 data_file = "/data/h20lvl.csv"
 with open(data_file + '.new', 'a') as f_output:
-	f_output.write("timestamp,h20_value,temp_value\n")
+	f_output.write("timestamp,h20_value,temp-C,humidity\n")
 
 # So the act of getting the moisture level is pretty simple, but there are some technical
 # reasons that are explained in the blog video about this project (linkedin.com/chrisharrold)
@@ -92,31 +92,28 @@ try:
 
 			# read data using pin 14
 			instance = dht11.DHT11(pin=temp_pin)
-
-			while True:
+			
+			reading = 0
+			while reading == 0:
     			result = instance.read()
    				if result.is_valid():
-        			print("Last valid input: " + str(datetime.datetime.now()))
         			print("Temperature: %d C" % result.temperature)
+        			temp = result.temperature
         			print("Humidity: %d %%" % result.humidity)
-
-			
-			for i in range(retries):
-        		humidity, temperature = read(sensor, pin, platform)
-       			if humidity is not None and temperature is not None:
-            		return (humidity, temperature)
-        		time.sleep(delay_seconds)
-    		return (None, None)
+        			humid = result.humidity
+        			reading = 1
+        		else:
+        			reading = 0
 			
 			# Get the timestamp for the log entry
 			localtime = time.asctime( time.localtime(time.time()) )
 		
 			# Write out to the log file
 			with open(data_file + '.new', 'a') as f_output:
-				f_output.write("" + localtime + "," + str(voltage_lvl) + "," + str(temp) + "\n")
+				f_output.write("" + localtime + "," + str(voltage_lvl) + "," + str(temp) + "," + str(humid) + "\n")
 		
 			# Print to the stdout for debug
-			print "On " + localtime + " The H20 Level is: " + str(voltage_lvl) + " And the temp is: " + str(temp) + ""
+			print "On " + localtime + " The H20 Level is: " + str(voltage_lvl) + ", the temp is: " + str(temp) + ", and the Humidity is " + str(humid) + "%%"
 		
 			# Increment the loop counter
 			loops = loops + 1
