@@ -82,7 +82,7 @@ try:
 			
 			temp = math.log(10000.0 / (1024.0 / raw_mv - 1))
 			temp = 1 / (0.001129148 + (0.000234125 + (0.0000000876741 * temp * temp ))* temp )
-			temp = temp - 268.15
+			temp = temp - 248.15
 			
 			# Get the timestamp for the log entry
 			localtime = time.asctime( time.localtime(time.time()) )
