@@ -82,10 +82,13 @@ try:
 			
 			# For a 10k resistance thermistor.
 			KY_013Resistor = 10000 
+			
 			# The b_constant value its been extracted from the datasheet for a 
         	# 10K thermistor NXRT15XH103FA5B, which is closer sensor I found.
         	b_constant = 3380.0
-        	t0 = 298; // 273 + 25 #constant of the S.Hart equation.
+        	
+        	# 273 + 25 #constant of the S.Hart equation.
+        	t0 = 298 
         	celciusAdjustment = 273.15;
         	adc10BitPrecision = 1024
         
