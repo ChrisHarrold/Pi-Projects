@@ -118,7 +118,7 @@ try:
 				f_output.write("" + localtime + "," + str(voltage_lvl) + "," + str(temp) + "," + str(humid) + "\n")
 		
 			# Print to the stdout for debug
-			print "On " + localtime + " The H20 Level is: " + str(voltage_lvl) + ", the temp is: " + str(temp) + ", and the Humidity is " + str(humid) + "%%"
+			print "On " + localtime + " The H20 Level is: " + str(voltage_lvl) + ", the temp is: " + str(temp) + ", and the Humidity is " + str(humid) + "%"
 		
 			# Increment the loop counter
 			loops = loops + 1
