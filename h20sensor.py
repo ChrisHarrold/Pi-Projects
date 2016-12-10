@@ -6,7 +6,6 @@ import math
 getcontext().prec = 4
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_MCP3008
-getcontext().prec = 4
 
 #I have chosen to use the hardware configuration for this project so this is here in case you choose
 #to go the software-based route:
@@ -22,15 +21,24 @@ SPI_PORT   = 0
 SPI_DEVICE = 0
 mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
 
+# The DHT11 Temp/humidity sensor apparently isn't great so retrying the reading can be required
+# this variable says how many times to try and get the reading
+retries = 5
+# This is the pin that will turn on the soil moisture probe (SMP)
 power_pin = 18
+#This is the pin on the MCP3008 that will get the analog reading from the SMP
 h20_pin = 7
+# This is the pin on the MCP3008 that will get the light level reading
 light_pin = 0
-temp_pin = 3
+# This is the pin on the RPi GPIO that will get the reading from the DHT11 module
+temp_pin = 4
+#This is the overall loop counter variable - really just a debug tool
 loops = 0
 
-# Setup GPIO commands and enable the power pin
+# Setup GPIO commands and enable the power pin, and DHT11 pin
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(power_pin, GPIO.OUT)
+GPIO.setup(temp_pin, GPIO.IN)
 
 # Make sure the power starts as off
 GPIO.output(power_pin, GPIO.LOW)
@@ -41,12 +49,10 @@ data_file = "/data/h20lvl.csv"
 with open(data_file + '.new', 'a') as f_output:
 	f_output.write("timestamp,h20_value,temp_value\n")
 
-
-
 # So the act of getting the moisture level is pretty simple, but there are some technical
 # reasons that are explained in the blog video about this project (linkedin.com/chrisharrold)
 # that means that it makes sense to check the water level as infrequently as possible. This
-# will then turn on the entire sensor pack (temp, light, and water) and then run the collect
+# will then turn on the sensor pack and then run the collect
 # code if the light level is bright enough to be considered "daytime" 
 
 # Primary monitor is a "while" loop that will keep the monitor running 
@@ -77,18 +83,16 @@ try:
 		if (light_lvl < 800):
 		
 			print "Sun's out! Checking H20 Level:"
-			# Read the voltage from the H20 and temp sensor via the ADC chip
-			voltage_lvl = mcp.read_adc(h20_pin)
-			raw_mv = mcp.read_adc(temp_pin)
+			# Gave up on the thermistor because none of the math I found worked after 3 days
+			# and because the DHT11 returns humidity and temp natively with no BS formulas
+			# so I am using that now.
 			
-			volts = Decimal(raw_mv * 5)
-			volts = Decimal(volts / 1024)
-			print "" + str(volts) + " Volts observed"
-			
-			temp = (10000.0 * (1024.0 / raw_mv - 1))
-			temp = math.log(temp)
-			temp = 1 / (0.001129148 + (0.000234125 * temp) + (0.0000000876741 * temp * temp))
-			temp = temp - 273.15
+			for i in range(retries):
+        		humidity, temperature = read(sensor, pin, platform)
+       			if humidity is not None and temperature is not None:
+            		return (humidity, temperature)
+        		time.sleep(delay_seconds)
+    		return (None, None)
 			
 			# Get the timestamp for the log entry
 			localtime = time.asctime( time.localtime(time.time()) )
