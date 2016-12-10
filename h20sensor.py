@@ -78,27 +78,11 @@ try:
 			print "Sun's out! Checking H20 Level:"
 			# Read the voltage from the H20 and temp sensor via the ADC chip
 			voltage_lvl = mcp.read_adc(h20_pin)
-			raw_mv = mcp.read_adc(temp_pin)
+			raw_mv = mcp.read_adc(temp_pin) 
 			
-			# For a 10k resistance thermistor.
-			KY_013Resistor = 10000 
-			
-			# The b_constant value its been extracted from the datasheet for a 
-        	# 10K thermistor NXRT15XH103FA5B, which is closer sensor I found.
-        	b_constant = 3380.0
-        	
-        	# 273 + 25 #constant of the S.Hart equation.
-        	t0 = 298 
-        	celciusAdjustment = 273.15
-        	adc10BitPrecision = 1024
-        
-        	resisADC = ((adc10BitPrecision / raw_mv)-1) * KY_013Resistor    
-        	farenh = b_constant / math.log(resisADC/(KY_013Resistor * math.exp(-b_constant/t0)))
-			
-			
-			#temp = math.log(1000.0 / (1024.0 / raw_mv - 1))
-			#temp = 1 / (0.001129148 + (0.000234125 + (0.0000000876741 * temp * temp ))* temp )
-			#temp = temp - 273.15
+			temp = math.log(1000.0 / (512.0 / raw_mv - 1))
+			temp = 1 / (0.001129148 + (0.000234125 + (0.0000000876741 * temp * temp ))* temp )
+			temp = temp - 273.15
 			
 			# Get the timestamp for the log entry
 			localtime = time.asctime( time.localtime(time.time()) )
