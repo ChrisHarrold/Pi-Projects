@@ -78,7 +78,7 @@ try:
 			print "Sun's out! Checking H20 Level:"
 			# Read the voltage from the H20 and temp sensor via the ADC chip
 			voltage_lvl = mcp.read_adc(h20_pin)
-			double(raw_mv) = mcp.read_adc(temp_pin)
+			raw_mv = mcp.read_adc(temp_pin)
 			
 			temp = log(((10240000/ram_mv) - 10000));
 			temp = 1 / (0.001129148 + (0.000234125 + (0.0000000876741 * temp * temp ))* temp );
