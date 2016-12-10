@@ -80,6 +80,10 @@ try:
 			voltage_lvl = mcp.read_adc(h20_pin)
 			raw_mv = mcp.read_adc(temp_pin)
 			
+			volts = raw_mv * 5
+			volts = volts / 1024
+			print "" + str(volts) + " Volts observed"
+			
 			temp = (10000.0 * (1024.0 / raw_mv - 1))
 			temp = math.log(temp)
 			temp = 1 / (0.001129148 + (0.000234125 * temp) + (0.0000000876741 * temp * temp))
