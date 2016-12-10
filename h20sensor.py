@@ -87,23 +87,28 @@ try:
 			print "Sun's out! Checking H20 Level:"
 			# Gave up on the thermistor because none of the math I found worked after 3 days
 			# and because the DHT11 returns humidity and temp natively with no BS formulas
-			# so I am using that now.
-
-
-			# read data using pin 14
+			# so I am using that now. Here we read the data using the temp_pin variable
 			instance = dht11.DHT11(pin=temp_pin)
-			
+			# The dht11 is better than the crappy thermistor, BUT it has a tendency to not answer
+			# the first attempt at reading it's data. In order to loop until we get a good reading
+			# we have to artificially loop the call to the DHT11 reader function.
 			reading = 0
 			while reading == 0:
 				result = instance.read()
    				if result.is_valid():
-					print("Temperature: %d C" % result.temperature)
+					# good for debugging:
+					# print("Temperature: %d C" % result.temperature)
 					temp = result.temperature
-					print("Humidity: %d %%" % result.humidity)
+					# Good for debugging:
+					# print("Humidity: %d %%" % result.humidity)
 					humid = result.humidity
 					reading = 1
 				else:
 					reading = 0
+			
+			# Read the voltage from the H20 sensor via the ADC chip
+			# The higher the voltage read, the drier the conditions in the soil
+			voltage_lvl = mcp.read_adc(h20_pin)
 			
 			# Get the timestamp for the log entry
 			localtime = time.asctime( time.localtime(time.time()) )
