@@ -70,7 +70,7 @@ print "GPIO set. Service starting. Press ctrl-c to break"
 # Main try block to handle the exception conditions
 try:	
 
-	# Primary monitor is a "while" loop that will keep the monitor running 
+    # Primary monitor is a "while" loop that will keep the monitor running 
 	# indefinitely as a soft service.
 	#
 	# This first syntax will lock the loop into a time window, 5 seconds 

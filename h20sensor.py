@@ -1,6 +1,8 @@
 #import all the usual suspects - GPIO, time, math just in case and the MCP3008 interface code
 import RPi.GPIO as GPIO
+import dht11
 import time
+import datetime
 from decimal import *
 import math
 getcontext().prec = 4
@@ -86,6 +88,18 @@ try:
 			# Gave up on the thermistor because none of the math I found worked after 3 days
 			# and because the DHT11 returns humidity and temp natively with no BS formulas
 			# so I am using that now.
+
+
+			# read data using pin 14
+			instance = dht11.DHT11(pin=temp_pin)
+
+			while True:
+    			result = instance.read()
+   				if result.is_valid():
+        			print("Last valid input: " + str(datetime.datetime.now()))
+        			print("Temperature: %d C" % result.temperature)
+        			print("Humidity: %d %%" % result.humidity)
+
 			
 			for i in range(retries):
         		humidity, temperature = read(sensor, pin, platform)
