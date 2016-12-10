@@ -73,7 +73,7 @@ try:
 		# The voltage from the light sensor is lower the more light that hits the sensor
 		# the lower the voltage read will be. Around 800 seems to be the sweet spot for
 		# dark enough to be considered "night".
-		if light_lvl < 800:
+		if int("light_lvl") < 800:
 		
 			# Read the voltage from the H20 and temp sensor via the ADC chip
 			voltage_lvl = mcp.read_adc(h20_pin)
@@ -88,7 +88,7 @@ try:
 			# plants outdoors, I am cheating and ignoring below 0 temps. There are roughly
 			# 5.65 mv per degree, so zero degrees is 56 * 5.65mv or 316.4 - by subtracting
 			# this from the reading we see how "far" our reading is above zero
-			temp = (temp - 316.4)
+			#temp = (temp - 316.4)
 			
 			# Then we take that "distance" and divide it by the mv per degrees which
 			# yields the temperature in Celcius
