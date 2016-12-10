@@ -62,7 +62,7 @@ try:
 		# I noticed that trying to read the voltage right after turning on the juice created
 		# really variable readings that were obviously caused by the "bounce" of the power
 		# coming on to the sensors, so I have it turn on and wait so that it can normalize
-		time.sleep(5)
+		time.sleep(10)
 		
 		# We need to check if it is dark out. The rationale is that overnight the evaporation
 		# rate is slowed due to the cooler temp so it is not as important to check the level
@@ -88,7 +88,7 @@ try:
 			# plants outdoors, I am cheating and ignoring below 0 temps. There are roughly
 			# 5.65 mv per degree, so zero degrees is 56 * 5.65mv or 316.4 - by subtracting
 			# this from the reading we see how "far" our reading is above zero
-			#temp = (temp - 316.4)
+			temp = (temp - 316.4)
 			
 			# Then we take that "distance" and divide it by the mv per degrees which
 			# yields the temperature in Celcius
