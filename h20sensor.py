@@ -75,7 +75,7 @@ try:
 		if light_lvl < 800:
 		
 			# Read the voltage from the H20 and temp sensor via the ADC chip
-			voltage_lvl = mcp.read_adc(sensor_pin)
+			voltage_lvl = mcp.read_adc(h20_pin)
 			temp = mcp.read_adc(temp_pin)
 			
 			# Now we convert the voltage to a temperature
