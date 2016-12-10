@@ -6,6 +6,7 @@ import math
 getcontext().prec = 4
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_MCP3008
+getcontext().prec = 4
 
 #I have chosen to use the hardware configuration for this project so this is here in case you choose
 #to go the software-based route:
@@ -80,8 +81,8 @@ try:
 			voltage_lvl = mcp.read_adc(h20_pin)
 			raw_mv = mcp.read_adc(temp_pin)
 			
-			volts = raw_mv * 5
-			volts = volts / 1024
+			volts = Decimal(raw_mv * 5)
+			volts = Decimal(volts / 1024)
 			print "" + str(volts) + " Volts observed"
 			
 			temp = (10000.0 * (1024.0 / raw_mv - 1))
