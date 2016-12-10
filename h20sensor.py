@@ -89,7 +89,7 @@ try:
         	
         	# 273 + 25 #constant of the S.Hart equation.
         	t0 = 298 
-        	celciusAdjustment = 273.15;
+        	celciusAdjustment = 273.15
         	adc10BitPrecision = 1024
         
         	resisADC = ((adc10BitPrecision / raw_mv)-1) * KY_013Resistor    
