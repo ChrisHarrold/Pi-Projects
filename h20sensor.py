@@ -80,9 +80,9 @@ try:
 			voltage_lvl = mcp.read_adc(h20_pin)
 			raw_mv = mcp.read_adc(temp_pin)
 			
-			temp = math.log(((10240000/raw_mv) - 10000));
-			temp = 1 / (0.001129148 + (0.000234125 + (0.0000000876741 * temp * temp ))* temp );
-			temp = temp - 273.15;
+			temp = math.log(1000.0 / (1024.0 / raw_mv - 1))
+			temp = 1 / (0.001129148 + (0.000234125 + (0.0000000876741 * temp * temp ))* temp )
+			temp = temp - 273.15
 			
 			# Get the timestamp for the log entry
 			localtime = time.asctime( time.localtime(time.time()) )
