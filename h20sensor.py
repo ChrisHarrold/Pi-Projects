@@ -68,6 +68,7 @@ try:
 		# rate is slowed due to the cooler temp so it is not as important to check the level
 		# which also means that we spare the sensor from additional electrolysis effect
 		light_lvl = mcp.read_adc(light_pin)
+		print "" + str(light_lvl) + ""
 		
 		# The voltage from the light sensor is lower the more light that hits the sensor
 		# the lower the voltage read will be. Around 800 seems to be the sweet spot for
@@ -78,9 +79,20 @@ try:
 			voltage_lvl = mcp.read_adc(h20_pin)
 			temp = mcp.read_adc(temp_pin)
 			
-			# Now we convert the voltage to a temperature
-			temp = (temp / 205)
-			temp = ((temp * 100) - 50)
+			# Now we convert the voltage to a temperature - the sensor I used goes from -55
+			# to 125 with 125 degrees and the voltage reading goes up with the temp
+			# so -55 = 0 and 125 = 1023 So we have to figure out based on the voltage
+			# what the temp is
+			#
+			# First, how far is our voltage reading from the voltage at 0. Since this is for 
+			# plants outdoors, I am cheating and ignoring below 0 temps. There are roughly
+			# 5.65 mv per degree, so zero degrees is 56 * 5.65mv or 316.4 - by subtracting
+			# this from the reading we see how "far" our reading is above zero
+			temp = (temp - 316.4)
+			
+			# Then we take that "distance" and divide it by the mv per degrees which
+			# yields the temperature in Celcius
+			temp = (temp / 5.65)
 			
 			# Get the timestamp for the log entry
 			localtime = time.asctime( time.localtime(time.time()) )
