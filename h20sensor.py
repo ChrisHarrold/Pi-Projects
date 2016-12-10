@@ -97,13 +97,13 @@ try:
 			while reading == 0:
 				result = instance.read()
    				if result.is_valid():
-        			print("Temperature: %d C" % result.temperature)
-        			temp = result.temperature
-        			print("Humidity: %d %%" % result.humidity)
-        			humid = result.humidity
-        			reading = 1
-        		else:
-        			reading = 0
+					print("Temperature: %d C" % result.temperature)
+					temp = result.temperature
+					print("Humidity: %d %%" % result.humidity)
+					humid = result.humidity
+					reading = 1
+				else:
+					reading = 0
 			
 			# Get the timestamp for the log entry
 			localtime = time.asctime( time.localtime(time.time()) )
