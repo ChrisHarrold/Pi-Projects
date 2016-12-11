@@ -91,7 +91,7 @@ with open(data_file + '.new', 'a') as f_output:
 import MySQLdb
 host = "192.168.1.112"
 user = "pi_user"
-passwd = ""
+passwd = "raspberry"
 db = "pi_projects"
 conn = MySQLdb.connect(host="" + host + "", user="" + user + "", passwd="" + passwd + "", db="" + db + "")
 
