@@ -159,7 +159,10 @@ try:
 		
 			# Store values in mySQL - if you aren't using MySQL, comment these lines out
 			cur = conn.cursor()
-			sql = "insert into weather VALUES('', '%s', '%s', '%s', %d)" (localtime, str(voltage_lvl) , str(temp), str(humid))
+			s_voltage_lvl = (str(voltage_lvl))
+			s_temp = (str(temp))
+			s_humid = (str(humid))
+			sql = "insert into weather (idweather, timestamp, h20_value, temp-c, humidity) VALUES('', '%s', '%s', '%s', '%s')" (localtime, s_voltage_lvl , s_temp, s_humid)
 			cur.execute(sql)
 			conn.commit()
 		
