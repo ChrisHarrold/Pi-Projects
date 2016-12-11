@@ -93,7 +93,7 @@ host = "192.168.1.112"
 user = "pi_user"
 passwd = ""
 db = "pi_projects"
-db = MySQLdb.connect(host="localhost", user="root", passwd="", db="test")
+conn = MySQLdb.connect(host="" + host + "", user="" + user + "", passwd="" + passwd + "", db="" + db + "")
 
 # Primary monitor is a "while" loop that will keep the monitor running 
 # indefinitely as a soft service.
@@ -158,11 +158,10 @@ try:
 				f_output.write("" + localtime + "," + str(voltage_lvl) + "," + str(temp) + "," + str(humid) + "\n")
 		
 			# Store values in mySQL - if you aren't using MySQL, comment these lines out
-			cur = db.cursor()
+			cur = conn.cursor()
 			sql = "insert into weather VALUES('', '%s', '%s', '%s', %d)" (localtime, str(voltage_lvl) , str(temp), str(humid))
 			cur.execute(sql)
-			db.commit()
-			db.close()
+			conn.commit()
 		
 			# Print to the stdout for debug
 			print "On " + localtime + " The H20 Level is: " + str(voltage_lvl) + ", the temp is: " + str(temp) + ", and the Humidity is " + str(humid) + "%"
@@ -187,7 +186,9 @@ except (KeyboardInterrupt, SystemExit):
 	print " "
 	print "-------------------------------------------"
 	GPIO.cleanup()
+	conn.close()
 	
 else:
 	
 	GPIO.cleanup()
+	conn.close()
