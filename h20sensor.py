@@ -1,16 +1,26 @@
-#import all the usual suspects - GPIO, time, math just in case and the MCP3008 interface code
+# So the act of getting the moisture level is pretty simple, but there are some technical
+# reasons that are explained in the blog video about this project (linkedin.com/chrisharrold)
+# that means that it makes sense to check the water level as infrequently as possible. This
+# will then turn on the sensor pack and then run the collect code if the light level is 
+# bright enough to be considered "daytime" 
+
+#import all the usual suspects - GPIO, time, math, decimals, whatever just in case
 import RPi.GPIO as GPIO
-import dht11
 import time
 import datetime
 from decimal import *
 import math
-getcontext().prec = 4
+
+# This library I found includes a simple loop for reading the DHT11 temp/humidity sensor
+# using it as an external library means less code in the main program
+import dht11
+
+# This is the MCP3008 code libraries to read the MCP3008 ADC chip pins 
 import Adafruit_GPIO.SPI as SPI
 import Adafruit_MCP3008
 
-#I have chosen to use the hardware configuration for this project so this is here in case you choose
-#to go the software-based route:
+# I have chosen to use the hardware configuration for this project so this is here in case 
+# you choose to go the software-based route:
 
 #CLK  = 18
 #MISO = 23
@@ -23,19 +33,27 @@ SPI_PORT   = 0
 SPI_DEVICE = 0
 mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE))
 
-# The DHT11 Temp/humidity sensor apparently isn't great so retrying the reading can be required
+# The DHT11 Temp/humidity sensor doesn't answer always so retrying the reading can be required
 # this variable says how many times to try and get the reading
 retries = 5
+
 # This is the pin that will turn on the soil moisture probe (SMP)
 power_pin = 18
+
 #This is the pin on the MCP3008 that will get the analog reading from the SMP
 h20_pin = 7
+
 # This is the pin on the MCP3008 that will get the light level reading
 light_pin = 0
+
 # This is the pin on the RPi GPIO that will get the reading from the DHT11 module
 temp_pin = 4
+
 #This is the overall loop counter variable - really just a debug tool
 loops = 0
+
+#this variable controls how long between moisture checks in seconds (14400 = 4 hours)
+sleep_timer = 10
 
 # Setup GPIO commands and enable the power pin, and DHT11 pin
 GPIO.setmode(GPIO.BCM)
@@ -45,17 +63,37 @@ GPIO.setup(temp_pin, GPIO.IN)
 # Make sure the power starts as off
 GPIO.output(power_pin, GPIO.LOW)
 
-# Opens and preps the data file for the first time. Will remove anything it
-# finds in the file and prep it with this default. :
+# Set our precision for math using decimals to 4 places - could be smaller for our uses
+# but 4 is a sweet spot for most stuff when the display part goes into effect
+getcontext().prec = 4
+
+# Setup your data output option(s):
+#
+# File configuration section: as written will store to a local file on your RPi in the data
+# directory which I recommend you create and then run: sudo chmod 777 data   This ensures
+# no data access errors when you go run your code
+# Comment out the one you don't want to use here, and in the main loop code
+#
+# Opens and preps the data file if running for the first time. Will append to 
+# the file and insert the new header at every startup.
+
 data_file = "/data/h20lvl.csv"
 with open(data_file + '.new', 'a') as f_output:
 	f_output.write("timestamp,h20_value,temp-C,humidity\n")
 
-# So the act of getting the moisture level is pretty simple, but there are some technical
-# reasons that are explained in the blog video about this project (linkedin.com/chrisharrold)
-# that means that it makes sense to check the water level as infrequently as possible. This
-# will then turn on the sensor pack and then run the collect
-# code if the light level is bright enough to be considered "daytime" 
+# Mysql Database storage method. In order for this to work you need MySQL running (DUH)
+# and you need to create a table with the columns you intend to store data in. If you just
+# copy and paste this, the defaults are ID (no value sent from the program), a timestamp,
+# h20_value (the moisture), temp-c (temperature in celcius), humidity (relative humidity)
+# obviously call them what you want, but the names here have to match what you use in your
+# database.
+
+import MySQLdb
+host = "192.168.1.112"
+user = "pi_user"
+passwd = ""
+db = "pi_projects"
+db = MySQLdb.connect(host="localhost", user="root", passwd="", db="test")
 
 # Primary monitor is a "while" loop that will keep the monitor running 
 # indefinitely as a soft service.
@@ -114,9 +152,17 @@ try:
 			# Get the timestamp for the log entry
 			localtime = time.asctime( time.localtime(time.time()) )
 		
-			# Write out to the log file
+			# Write out to the log file - if you are using the database options, comment
+			# the following lines out (or leave them if you want the file AND the database
 			with open(data_file + '.new', 'a') as f_output:
 				f_output.write("" + localtime + "," + str(voltage_lvl) + "," + str(temp) + "," + str(humid) + "\n")
+		
+			# Store values in mySQL - if you aren't using MySQL, comment these lines out
+			cur = db.cursor()
+			sql = "insert into weather VALUES('', '%s', '%s', '%s', %d)" (localtime, str(voltage_lvl) , str(temp), str(humid))
+			cur.execute(sql)
+			db.commit()
+			db.close()
 		
 			# Print to the stdout for debug
 			print "On " + localtime + " The H20 Level is: " + str(voltage_lvl) + ", the temp is: " + str(temp) + ", and the Humidity is " + str(humid) + "%"
@@ -128,8 +174,7 @@ try:
 		GPIO.output(power_pin, GPIO.LOW)
 		
 		# settle in and sleep until the next time to poll the sensor
-		# print "sleeping for 1 seconds"
-		time.sleep(14400)
+		time.sleep(sleep_timer)
 			
 
 except (KeyboardInterrupt, SystemExit):
