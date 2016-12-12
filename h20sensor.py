@@ -162,8 +162,8 @@ try:
 			s_voltage_lvl = (str(voltage_lvl))
 			s_temp = (str(temp))
 			s_humid = (str(humid))
-			sql = "insert into weather VALUES(%s,%s,%s,%s,%s)"
-			cur.execute(sql, ("", localtime, s_voltage_lvl , s_temp, s_humid))
+			sql = "insert into weather VALUES(%s,%s,%s,%s)"
+			cur.execute(sql, (localtime, s_voltage_lvl , s_temp, s_humid))
 			conn.commit()
 		
 			# Print to the stdout for debug
