@@ -17,4 +17,9 @@ simpletest.py - a simple analog to digital reader test script for the MCP3008 AD
 
 h20sensor.py - code for monitoring soil moisture levels using the elego analog soil moisture sensor and MCP3008 ADC
 
-I have put many comments into the code itself and will update here as well.
+dht11.py - python library for reading the ourput from the DHT11 temp and humidity sensor
+
+dht11test.py - a quick simple script to verify you are able to get data from the DHT11 sensor - check the code comments in the H20 sensor code for the why
+
+I have extensively commented the code such that you can figure out what each one does by reading the comments.
+The file list here just tells you what each one does, not the how.
