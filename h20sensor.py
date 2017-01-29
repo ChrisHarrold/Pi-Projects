@@ -12,7 +12,8 @@ from decimal import *
 import math
 
 # This library I found includes a simple loop for reading the DHT11 temp/humidity sensor
-# using it as an external library means less code in the main program
+# using it as an external library means less code in the main program - the dht11.py file
+# must be in the same file location as this script
 import dht11
 
 # This is the MCP3008 code libraries to read the MCP3008 ADC chip pins 
@@ -49,10 +50,11 @@ light_pin = 0
 # This is the pin on the RPi GPIO that will get the reading from the DHT11 module
 temp_pin = 4
 
-#This is the overall loop counter variable - really just a debug tool
+# This is the overall loop counter variable - really just a debug tool to control how many
+# times the whole script runs if you want to control that
 loops = 0
 
-#this variable controls how long between moisture checks in seconds (14400 = 4 hours)
+# this variable controls how long between moisture checks in seconds (14400 = 4 hours)
 sleep_timer = 10
 
 # Setup GPIO commands and enable the power pin, and DHT11 pin
@@ -72,7 +74,7 @@ getcontext().prec = 4
 # File configuration section: as written will store to a local file on your RPi in the data
 # directory which I recommend you create and then run: sudo chmod 777 data   This ensures
 # no data access errors when you go run your code
-# Comment out the one you don't want to use here, and in the main loop code
+# Comment out the one you don't want to use here, and in the main loop code or leave them both
 #
 # Opens and preps the data file if running for the first time. Will append to 
 # the file and insert the new header at every startup.
@@ -84,9 +86,11 @@ with open(data_file + '.new', 'a') as f_output:
 # Mysql Database storage method. In order for this to work you need MySQL running (DUH)
 # and you need to create a table with the columns you intend to store data in. If you just
 # copy and paste this, the defaults are ID (no value sent from the program), a timestamp,
-# h20_value (the moisture), temp-c (temperature in celcius), humidity (relative humidity)
+# h20_value (the voltage from the moisture sensor), temp-c (temperature in celcius), 
+# and humidity (relative humidity)
 # obviously call them what you want, but the names here have to match what you use in your
-# database.
+# database. I know the credentials are hard-coded, but they are a private LAN so 
+# change them for your environment, and good luck getting in to mine.
 
 import MySQLdb
 host = "192.168.1.112"
@@ -95,15 +99,17 @@ passwd = "raspberry"
 db = "pi_projects"
 conn = MySQLdb.connect(host="" + host + "", user="" + user + "", passwd="" + passwd + "", db="" + db + "")
 
-# Primary monitor is a "while" loop that will keep the monitor running 
-# indefinitely as a soft service.
+# Left this line in for debug - can be commented out for "production" use
 print('Preparing to monitor soil moisture level')
+
+# Primary monitor is a "while" loop inside a try: construct that will keep  
+# the monitor running indefinitely as a soft service.
 try:
 
 	while True:
 		
 		# turn on the sensor pack - done to avoid premature burnout due to
-		# electrolysis corrosion
+		# electrolysis corrosion and minimize power usage for future plans
 		GPIO.output(power_pin, GPIO.HIGH)
 		
 		# I noticed that trying to read the voltage right after turning on the juice created
@@ -119,26 +125,30 @@ try:
 		
 		# The voltage from the light sensor is lower the more light that hits the sensor
 		# the lower the voltage read will be. Around 800 seems to be the sweet spot for
-		# dark enough to be considered "night".
+		# dark enough to be considered "night", but you should adjust to your local conditions
 		if (light_lvl < 800):
 		
+			# This is a debug line left in to make sure the tuning of light levels is good
+			# it should be removed for "production" use
 			print "Sun's out! Checking H20 Level:"
 			# Gave up on the thermistor because none of the math I found worked after 3 days
 			# and because the DHT11 returns humidity and temp natively with no BS formulas
 			# so I am using that now. Here we read the data using the temp_pin variable
+			# that we set above in the variables. This also calls the dht11 library that
+			# should be in the same directory as this script
 			instance = dht11.DHT11(pin=temp_pin)
 			
-			# The dht11 is better than the crappy thermistor, BUT it has a tendency to not answer
+			# The dht11 is WAY better than the crappy thermistor, BUT it has a tendency to not answer
 			# the first attempt at reading it's data. In order to loop until we get a good reading
 			# we have to artificially loop the call to the DHT11 reader function.
 			reading = 0
 			while reading == 0:
 				result = instance.read()
    				if result.is_valid():
-					# good for debugging:
+					# good line to uncomment for debugging.
 					# print("Temperature: %d C" % result.temperature)
 					temp = result.temperature
-					# Good for debugging:
+					# good line to uncomment for debugging.
 					# print("Humidity: %d %%" % result.humidity)
 					humid = result.humidity
 					reading = 1
@@ -146,7 +156,7 @@ try:
 					reading = 0
 			
 			# Read the voltage from the H20 sensor via the ADC chip
-			# The higher the voltage read, the drier the conditions in the soil
+			# The higher the voltage, the drier the conditions in the soil
 			voltage_lvl = mcp.read_adc(h20_pin)
 			
 			# Get the timestamp for the log entry
@@ -166,7 +176,7 @@ try:
 			cur.execute(sql, (localtime, s_voltage_lvl , s_temp, s_humid))
 			conn.commit()
 		
-			# Print to the stdout for debug
+			# Print to the stdout for debug - remove for production use
 			print "On " + localtime + " The H20 Level is: " + str(voltage_lvl) + ", the temp is: " + str(temp) + ", and the Humidity is " + str(humid) + "%"
 		
 			# Increment the loop counter
@@ -176,13 +186,17 @@ try:
 		GPIO.output(power_pin, GPIO.LOW)
 		
 		# settle in and sleep until the next time to poll the sensor
+		# I would recommend that this tuning match your climactic conditions.
+		# For example if you are hot and dry like I am, I would check this as often
+		# as 2 hours or so. For wetter conditions you could even do once a day.
+		# change the sleep_timer value in the declarations section to the length you need
+		# for your conditions.
 		time.sleep(sleep_timer)
 			
 
 except (KeyboardInterrupt, SystemExit):
 	
-	# If the system is interrupted (ctrl-c) this will print the final values
-	# so that you have at least some idea of what happened
+	# If the system is interrupted (ctrl-c) this will print a message
 	print "-------------------------------------------"
 	print " "
 	print "System Reset on Keyboard Command or SysExit"
