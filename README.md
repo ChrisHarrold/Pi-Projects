@@ -1,5 +1,5 @@
 # Pi-Projects
-Code related to My IoT projects and blog series
+Code related to My IoT projects and blog series - Comments in code guide you
 
 Current Files:
 
