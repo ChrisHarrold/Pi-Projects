@@ -50,8 +50,8 @@ def distance():
 if __name__ == '__main__':
     try:
         while True:
+        	print ("Waiting to settle sensor")
         	GPIO.output(GPIO_TRIGGER, False)
-			print("Waiting for sensor to settle")
 			time.sleep(2)
             dist = distance()
             print ("Measured Distance = %.1f cm" % dist)
