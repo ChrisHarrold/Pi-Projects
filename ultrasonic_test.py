@@ -17,7 +17,7 @@ def distance():
 	#allow sensor to settle
 	GPIO.output(GPIO_TRIGGER, False)
 	print("Waiting for sensor to settle")
-	time.sleep(2)	
+	time.sleep(2)
 	
     # set Trigger to HIGH
     print("Turning on Sensor")
