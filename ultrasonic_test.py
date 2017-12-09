@@ -21,20 +21,21 @@ def distance():
     GPIO.output(GPIO_TRIGGER, True)
     
     # set Trigger after 0.01ms to LOW
-    time.sleep(0.05)
+    time.sleep(0.2)
     print("Turning Off Sensor")
     GPIO.output(GPIO_TRIGGER, False)
  
     StartTime = time.time()
     StopTime = time.time()
+    Timeout = time.time()
  
-    # save StartTime
-    print("Waiting for starttime")
     while GPIO.input(GPIO_ECHO) == 0:
         StartTime = time.time()
+        if StartTime - Timeout > 30:
+        	distance = 0
+        	return distance
  
     # save time of arrival
-    print("Waiting for end time")
     while GPIO.input(GPIO_ECHO) == 1:
         StopTime = time.time()
  
@@ -52,10 +53,12 @@ if __name__ == '__main__':
         while True:
         	print ("Waiting to settle sensor")
         	GPIO.output(GPIO_TRIGGER, False)
-        	time.sleep(2)
-        	dist = distance()
-        	print ("Measured Distance = %.1f cm" % dist)
-        	time.sleep(1)
+        	time.sleep(10)
+        	if distance = 0:
+        		print("Sensor Timeout")
+        	else:
+        		dist = distance()
+        		print ("Measured Distance = %.1f cm" % dist)
  
         # Reset by pressing CTRL + C
     except KeyboardInterrupt:
