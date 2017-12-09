@@ -54,7 +54,7 @@ if __name__ == '__main__':
         	print ("Waiting to settle sensor")
         	GPIO.output(GPIO_TRIGGER, False)
         	time.sleep(10)
-        	if distance = 0:
+        	if distance == 0:
         		print("Sensor Timeout")
         	else:
         		dist = distance()
