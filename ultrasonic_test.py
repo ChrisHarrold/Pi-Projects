@@ -15,6 +15,7 @@ GPIO.setup(GPIO_ECHO, GPIO.IN)
  
 def distance():
 	#allow sensor to settle
+	GPIO.output(GPIO_TRIGGER, False)
 	print("Waiting for sensor to settle")
 	time.sleep(2)
 
