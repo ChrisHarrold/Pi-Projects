@@ -54,8 +54,8 @@ if __name__ == '__main__':
         	GPIO.output(GPIO_TRIGGER, False)
         	time.sleep(2)
         	dist = distance()
-            print ("Measured Distance = %.1f cm" % dist)
-            time.sleep(1)
+        	print ("Measured Distance = %.1f cm" % dist)
+        	time.sleep(1)
  
         # Reset by pressing CTRL + C
     except KeyboardInterrupt:
