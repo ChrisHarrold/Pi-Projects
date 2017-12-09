@@ -21,7 +21,7 @@ def distance():
     GPIO.output(GPIO_TRIGGER, True)
     
     # set Trigger after 0.01ms to LOW
-    time.sleep(0.00001)
+    time.sleep(0.05)
     print("Turning Off Sensor")
     GPIO.output(GPIO_TRIGGER, False)
  
