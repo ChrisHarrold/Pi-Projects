@@ -14,10 +14,13 @@ GPIO.setup(GPIO_TRIGGER, GPIO.OUT)
 GPIO.setup(GPIO_ECHO, GPIO.IN)
  
 def distance():
+	#allow sensor to settle
+	print("Waiting for sensor to settle")
+	time.sleep(2)
+
     # set Trigger to HIGH
     print("Turning on Sensor")
     GPIO.output(GPIO_TRIGGER, True)
- 
     # set Trigger after 0.01ms to LOW
     time.sleep(0.00001)
     print("Turning Off Sensor")
