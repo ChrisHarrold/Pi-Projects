@@ -11,7 +11,7 @@ try:
     while True:
         if GPIO.input(23):
         	strTime = str(time.time())
-            print("Motion Detected at time " + strTime)
+        	print("Motion Detected at time " + strTime)
             GPIO.output(21, True)
             time.sleep(1) #Buzzer turns on for 1 sec
             GPIO.output(24, False)
