@@ -3,7 +3,7 @@ import time
 
 GPIO.setmode(GPIO.BCM)
 
-i == 0
+i = 0
 GPIO.setup(23, GPIO.IN) #PIR
 GPIO.setup(21, GPIO.OUT) #LED
 
