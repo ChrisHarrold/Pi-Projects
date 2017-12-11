@@ -14,8 +14,6 @@ GPIO.setup(GPIO_TRIGGER, GPIO.OUT)
 GPIO.setup(GPIO_ECHO, GPIO.IN)
  
 def distance():
-	#allow sensor to settle
-	
     # set Trigger to HIGH
     print("Turning on Sensor")
     GPIO.output(GPIO_TRIGGER, True)
@@ -52,7 +50,7 @@ if __name__ == '__main__':
         while True:
         	print ("Waiting to settle sensor")
         	GPIO.output(GPIO_TRIGGER, False)
-        	time.sleep(10)
+        	time.sleep(5)
         	if distance == 0:
         		print("Sensor Timeout")
         	else:
