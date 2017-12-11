@@ -22,4 +22,4 @@ try:
 
 except KeyboardInterrupt:
 	print("Stopped by User")
-    GPIO.cleanup()
+	GPIO.cleanup()
