@@ -10,7 +10,7 @@ GPIO.output(21, False)
 
 try:
 	time.sleep(2) # to stabilize sensor
-	while i < 200:
+	while True:
 		if GPIO.input(23):
 			GPIO.output(21, True)
 			strTime = str(time.time())
