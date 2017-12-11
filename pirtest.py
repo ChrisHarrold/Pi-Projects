@@ -10,11 +10,11 @@ GPIO.output(21, False)
 
 try:
 	time.sleep(2) # to stabilize sensor
-	while i < 21:
+	while i < 200:
 		if GPIO.input(23):
 			GPIO.output(21, True)
 			time.sleep(1) #LED turns on for 1 sec
-			
+			GPIO.output(21, False)
 			strTime = str(time.time())
 			print("Motion Detected at time " + strTime)
 			time.sleep(5) #to avoid multiple detection
