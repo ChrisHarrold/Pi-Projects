@@ -13,8 +13,8 @@ try:
 	while True:
 		if GPIO.input(23):
 			GPIO.output(21, True)
-			strTime = str(time.time())
-			print("Motion Detected at time " + strTime)
+			now = time.strftime("%H:%M", time.localtime(time.time()))
+			print("Motion detected ") + str(now)
 			time.sleep(2) #to avoid multiple detection
 			GPIO.output(21, False)
 		time.sleep(0.1) #loop delay, should be less than detection delay
