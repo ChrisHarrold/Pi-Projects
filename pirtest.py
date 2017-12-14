@@ -9,6 +9,7 @@ GPIO.setup(21, GPIO.OUT) #LED
 GPIO.output(21, False)
 
 try:
+	print("Starting up")
 	time.sleep(2) # to stabilize sensor
 	while True:
 		if GPIO.input(23):
@@ -21,5 +22,6 @@ try:
 		i = i + 1
 
 except KeyboardInterrupt:
+	print("")
 	print("Stopped by User")
 	GPIO.cleanup()
