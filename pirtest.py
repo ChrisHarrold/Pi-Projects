@@ -14,7 +14,7 @@ try:
 	while True:
 		if GPIO.input(23):
 			GPIO.output(21, True)
-			now = time.strftime("%H:%M", time.localtime(time.time()))
+			now = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(time.time()))
 			print("Motion detected ") + str(now)
 			time.sleep(2) #to avoid multiple detection
 			GPIO.output(21, False)
