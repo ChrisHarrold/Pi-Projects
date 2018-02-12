@@ -14,18 +14,6 @@ import os
 sLANs = os.system('wpa_cli -i wlan0 scan_results')
 print(sLANs)
 
-# Loop over the available cells
-for cell in cells:
-    cell.summary = 'SSID {} / Quality {}'.format(cell.ssid, cell.quality)
-
-    if cell.encrypted:
-        enc_yes_no = '*'
-    else:
-        enc_yes_no = '()'
-
-    cell.summary = cell.summary + ' / Encryption {}'.format(enc_yes_no)
-    print(cell.summary)
-
 # Define the things we need for our API call - this is unique to each API
 data = ""
 url = 'https://pos.cit.api.here.com/positioning/v1/locate?app_id=MmLlTteK7aj3zF6eA0Tn&app_code=6-zloMGtPyAgc12gkQVzrA'
