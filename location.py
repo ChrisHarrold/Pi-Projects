@@ -6,7 +6,10 @@
 
 # we will need these two libraries for handling the API request, and parsing the resultant JSON
 import requests
-import json
+import 
+# this one is for getting mac addresses from the rpi
+from wifi import Cell, Scheme
+Cell.all('wlan0')
 
 # Define the things we need for our API call - this is unique to each API
 data = ""
