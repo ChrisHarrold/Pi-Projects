@@ -10,18 +10,17 @@ import json
 # this one is for getting the wifi mac addresses
 import os
 
-# Scan using wlan0
-sLANs = os.system('wpa_cli -i wlan0 scan_results')
-print(sLANs)
-
 # Define the things we need for our API call - this is unique to each API
 data = ""
 url = 'https://pos.cit.api.here.com/positioning/v1/locate?app_id=MmLlTteK7aj3zF6eA0Tn&app_code=6-zloMGtPyAgc12gkQVzrA'
 headers = {'Content-type': 'application/json'}
 
 # grab our list of wifi networks and split them into the JSON data format
-
-# will add r-pi python for collecting and stripping MAC addresses to a file here
+# Scan using wlan0
+sLANs = os.system('wpa_cli -i wlan0 scan_results')
+# print(sLANs)
+for line in sLANs:
+    macaddy = split(line, " ")
 
 # first open the JSON format
 theString = """{
