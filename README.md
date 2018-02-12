@@ -11,6 +11,8 @@ sound.py - sound sensor detector code - debug version, non-service
 
 sound_svc.py - runs the sound detection as a service in fully auto loop mode
 
+location.py - using the Here (here.com) service API and a list of MAC addresses to return a location in lat/lng
+
 level.html - google guage HTML page for displaying the output of the sound detector project (copy to /var/www/html on your Pi)
 
 simpletest.py - a simple analog to digital reader test script for the MCP3008 ADC chip
