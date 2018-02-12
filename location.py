@@ -59,7 +59,7 @@ print(theString)
 response = requests.post(url, data=theString, headers=headers)
 # And load the returned JSON into a dict object:
 jData = json.loads(response.content)
-
+print(jData)
 # I can quickly check if I goofed up by looking for a 404 error (I can expand this to include
 # all 400 and 500 series errors and even respond with the error)
 if '404' in str(jData):
