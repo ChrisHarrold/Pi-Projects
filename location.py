@@ -15,7 +15,7 @@ import json
 
 # Define the things we need for our API call - this is unique to each API
 data = ""
-url = 'https://pos.cit.api.here.com/positioning/v1/locate?app_id={GET A KEY AT HERE.COM}&app_code={GET A CODE AT HERE.COM}'
+url = 'https://pos.cit.api.here.com/positioning/v1/locate?app_id=MmLlTteK7aj3zF6eA0Tn&app_code=6-zloMGtPyAgc12gkQVzrA'
 headers = {'Content-type': 'application/json'}
 
 # grab our list of wifi networks and split them into the JSON data format
@@ -29,10 +29,14 @@ theString = """{
 # Now read in the list of MAC address values
 with open("list.csv") as f: # list.csv is a list of mac addresses, 1 per line
     lines = f.readlines()
-    last = lines[-1]
+    last = int(len(lines))
+    last = last + 1
+    #print(last)
+    thecount = 1
     for line in lines:
         line = line.rstrip("\n")
-        if line is last:
+        thecount = thecount + 1
+        if thecount == last:
             #print id(line),id(last)
             a = line
             stra = '"mac": "{}"'.format(a)
@@ -49,6 +53,7 @@ theString = theString + """]
 # This last replace makes sure there are no linefeeds in our string (took a while to 
 # troubleshoot that one!)
 theString = theString.replace("\n", "")
+# print(theString)
 
 # Now we make our API call:
 response = requests.post(url, data=theString, headers=headers)
@@ -63,7 +68,7 @@ if '404' in str(jData):
     print(jData)
 else:
     # Didn't get an error! Print out the returned values:
-    print(jData)
+    #print(jData)
     # and then as a nice touch - format them into something more human readable:
     for key in jData:
         print ("Latitude = " + str(jData['location']['lat']))
