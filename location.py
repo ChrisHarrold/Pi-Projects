@@ -10,7 +10,7 @@ import json
 
 # Define the things we need for our API call - this is unique to each API
 data = ""
-url = 'https://pos.cit.api.here.com/positioning/v1/locate?app_id=MmLlTteK7aj3zF6eA0Tn&app_code=6-zloMGtPyAgc12gkQVzrA'
+url = 'https://pos.cit.api.here.com/positioning/v1/locate?app_id={GET A KEY AT HERE.COM}&app_code={GET A CODE AT HERE.COM}'
 headers = {'Content-type': 'application/json'}
 
 # grab our list of wifi networks and split them into the JSON data format
