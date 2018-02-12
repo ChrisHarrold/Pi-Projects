@@ -9,10 +9,8 @@ import requests
 import json
 # this one is for getting the wifi mac addresses
 from wifi import Cell, Scheme
-Cell.all('wlan0')
-for cell in Cell:
-    thedata = str(Cell)
-    print(thedata)
+thedata = str(Cell.all('wlan0'))
+print(thedata)
     
 
 # Define the things we need for our API call - this is unique to each API
