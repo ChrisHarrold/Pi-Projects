@@ -8,10 +8,11 @@
 import requests
 import json
 # this one is for getting the wifi mac addresses
-from wifi import Cells, Scheme
+import os
 
 # Scan using wlan0
-cells = Cell.all('wlan0')
+sLANs = os.system('wpa_cli -i wlan0 scan_results')
+print(sLANs)
 
 # Loop over the available cells
 for cell in cells:
