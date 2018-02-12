@@ -17,17 +17,16 @@ headers = {'Content-type': 'application/json'}
 
 # grab our list of wifi networks and split them into the JSON data format
 # Scan using wlan0
-sLANs = os.system('wpa_cli -i wlan0 scan_results')
+sLANs = os.system('wpa_cli -i wlan0 scan_results | list.txt')
 # print(sLANs)
-sLANs = str(sLANs)
-print(sLANs.split(" "))
+
 
 # first open the JSON format
 theString = """{
  "wlan": ["""
 
 # Now read in the list of MAC address values
-with open("list.csv") as f: # list.csv is a list of mac addresses, 1 per line
+with open("list.txt") as f: # list.csv is a list of mac addresses, 1 per line
     lines = f.readlines()
     last = int(len(lines))
     last = last + 1
