@@ -20,7 +20,7 @@ headers = {'Content-type': 'application/json'}
 sLANs = os.system('wpa_cli -i wlan0 scan_results')
 # print(sLANs)
 sLANs = str(sLANs)
-print(sLANs.split())
+print(sLANs.split(" "))
 
 # first open the JSON format
 theString = """{
