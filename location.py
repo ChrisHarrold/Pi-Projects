@@ -8,8 +8,22 @@
 import requests
 import json
 # this one is for getting the wifi mac addresses
+from wifi import Cells, Scheme
 
-    
+# Scan using wlan0
+cells = Cell.all('wlan0')
+
+# Loop over the available cells
+for cell in cells:
+    cell.summary = 'SSID {} / Quality {}'.format(cell.ssid, cell.quality)
+
+    if cell.encrypted:
+        enc_yes_no = '*'
+    else:
+        enc_yes_no = '()'
+
+    cell.summary = cell.summary + ' / Encryption {}'.format(enc_yes_no)
+    print(cell.summary)
 
 # Define the things we need for our API call - this is unique to each API
 data = ""
