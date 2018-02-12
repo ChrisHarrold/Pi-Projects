@@ -53,7 +53,7 @@ theString = theString + """]
 # This last replace makes sure there are no linefeeds in our string (took a while to 
 # troubleshoot that one!)
 theString = theString.replace("\n", "")
-# print(theString)
+print(theString)
 
 # Now we make our API call:
 response = requests.post(url, data=theString, headers=headers)
