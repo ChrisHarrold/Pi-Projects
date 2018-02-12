@@ -8,9 +8,7 @@
 import requests
 import json
 # this one is for getting the wifi mac addresses
-#from wifi import Cell, Scheme
-#thedata = str(Cell.all('wlan0'))
-#print(thedata)
+
     
 
 # Define the things we need for our API call - this is unique to each API
@@ -31,7 +29,6 @@ with open("list.csv") as f: # list.csv is a list of mac addresses, 1 per line
     lines = f.readlines()
     last = int(len(lines))
     last = last + 1
-    #print(last)
     thecount = 1
     for line in lines:
         line = line.rstrip("\n")
