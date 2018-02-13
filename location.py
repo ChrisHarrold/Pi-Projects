@@ -30,15 +30,10 @@ sLANs = cmdline('wpa_cli -i wlan0 scan_results')
 sLANs = sLANs.decode('utf-8')
 print(sLANs)
 
-p = re.compile(r'([0-9a-f]{2}(?::[0-9a-f]{2}){5})', re.IGNORECASE)
-test_str = u"TEXT WITH SOME MAC ADDRESSES 00:24:17:b1:cc:cc TEXT CONTINUES WITH SOME MORE TEXT 20:89:86:9a:86:24"
-
-print(re.findall(p, test_str))
-
 p = re.compile(r'(?:[0-9a-fA-F]:?){12}')
 test_str = sLANs
-print (re.findall(p, test_str))
-
+sLANs = re.findall(p, test_str)
+print(sLANs)
 
 # first open the JSON format
 theString = """{
