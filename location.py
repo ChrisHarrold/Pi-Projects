@@ -32,7 +32,7 @@ print(sLANs)
 
 p = re.compile('''ur'(?:[0-9a-fA-F]:?){12}''')
 test_str = sLANs
-print(re.findall(p, test_str))
+re.findall(p, test_str)
 
 
 # first open the JSON format
