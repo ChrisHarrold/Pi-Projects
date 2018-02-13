@@ -38,7 +38,6 @@ sLANs = sLANs.decode('utf-8')
 p = re.compile(r'(?:[0-9a-fA-F]:?){12}')
 test_str = sLANs
 sLANs = re.findall(p, test_str)
-sLANs = str(sLANs)
 # Another debug print if you need it (should be a list of MAC addrs with a "," between:
 print (type(sLANs))
 
