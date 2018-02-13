@@ -26,15 +26,19 @@ def cmdline(command):
     )
     return process.communicate()[0]
 
+p = re.compile(ur'(?:[0-9a-fA-F]:?){12}')
+test_str = u + sLANs
+
+
+print(re.findall(p, test_str))
+
 
 X = '([a-fA-F0-9]{2}[:|\-]?){6}' # this is the regex
 sLANs = cmdline('wpa_cli -i wlan0 scan_results')
 sLANs = sLANs.decode('utf-8')
-#sLANs = sLANs.split('::', 1)[-1]
-
 for s in sLANs:
     a = re.compile(X).search(s)
-    if not a:
+    if a:
         print (s[a.start(): a.end()])
 
 
