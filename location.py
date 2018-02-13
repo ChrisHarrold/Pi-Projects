@@ -11,16 +11,12 @@ import json
 from subprocess import PIPE, Popen
 import re
 
-# Define the things we need for our API call - this is unique to each API
-data = ""
-url = 'https://pos.cit.api.here.com/positioning/v1/locate?app_id=MmLlTteK7aj3zF6eA0Tn&app_code=6-zloMGtPyAgc12gkQVzrA'
-headers = {'Content-type': 'application/json'}
-
 # counters and variables just for completness:
 thecount = 0
+theString = ""
 
 # grab our list of wifi networks and split them into the JSON data format
-# Scan using wlan0
+# Scan using wlan0 and the new python.process for running shell commands:
 def cmdline(command):
     process = Popen(
         args=command,
@@ -28,27 +24,31 @@ def cmdline(command):
         shell=True
     )
     return process.communicate()[0]
-# These two commands get the list of networks and put them in a string:
+
+# These two commands get the list of networks and put them in a decoded UTF-8 string:
 sLANs = cmdline('wpa_cli -i wlan0 scan_results')
 sLANs = sLANs.decode('utf-8')
 # you can see the raw string below if you remove the comment it is formatted with \t and \n
 # if you decide to change it to do other things, make sure you use a strip or replace:
 #print(sLANs)
 
-# Now we take that string, and pull out just the MAC addresses - this took me many days to find
-# and figure out. Special thanks to the French guy fro Thalys on StackOverflow. Not for the answer, 
-# but because he was a douche (that's French for asshat) he pushed me to find the answer on my own.
+# Now take that string, and pull out just the MAC addresses - this took me many days to find
+# and figure out. Special thanks to the French guy from Thalys on StackOverflow. Not for the answer, 
+# but because he was a douche (that's French for asshat), he pushed me to find the answer on my own.
 p = re.compile(r'(?:[0-9a-fA-F]:?){12}')
 test_str = sLANs
 sLANs = re.findall(p, test_str)
 # Another debug print if you need it (should be a list of MAC addrs with a "," between:
 #print (sLANs)
 
-# first open the JSON format
+# Now we need to prep this for sending to the API.
+# first let's get this into the JSON format so we can send it:
 theString = """{
  "wlan": ["""
 
-# Now we insert the MAC values into the string in the expected format:
+# Now we insert the MAC values into the string in the expected format
+# This will iterate the list that came back from the command above, and format it per the JSON
+# that the API requires:
 for macs in sLANs:
     last = len(sLANs)
     thecount = thecount + 1
@@ -67,32 +67,42 @@ for macs in sLANs:
         theString = theString + """   {""" + stra + """},"""
 
 
-# lastly close the JSON
+# last thing is to close the JSON so it is properly formatted
 theString = theString + """]
 }"""
 
 # This last replace makes sure there are no linefeeds in our string (took a while to 
 # troubleshoot that one!)
 theString = theString.replace("\n", "")
-
+#You can display the complete and debugged string below by removing the comment:
 #print(theString)
 
 # Now we make our API call:
+# Define the things we need for our API call - this is unique to each API
+data = ""
+url = 'https://pos.cit.api.here.com/positioning/v1/locate?app_id=MmLlTteK7aj3zF6eA0Tn&app_code=6-zloMGtPyAgc12gkQVzrA'
+headers = {'Content-type': 'application/json'}
+# using the python response library, we make our request by sending the properly formatted JSON string,
+# the URL, and the header info to the API
 response = requests.post(url, data=theString, headers=headers)
-# And load the returned JSON into a dict object:
+# And load the returned JSON into a dict type object:
 jData = json.loads(response.content.decode('utf-8'))
+# the debug below is EXTREMELY useful for debigging the JSON returned by the API. If you get
+# "key" errors when you try and do the print below, it is highly likely that the JSON string is borked
+# and you are getting errors back from the API - this will tell you what it is:
 #print(jData)
-# I can quickly check if I goofed up by looking for a 404 error (I can expand this to include
-# all 400 and 500 series errors and even respond with the error)
 
+# Now before I print out the results, let's make sure I do not try and print bogus info!
+# the word "decription" will be returned in the error code, but not in a good response
+# by looking for that keyword in the JSON string I can determine if there is an error:
 if 'description' in str(jData):
     # got an error so print the full payload returned from the API for troubleshooting
-    print("you messed up the json, or it got a bad result:")
+    print("you messed up the json, or it got a bad result, or the API is busted:")
     print(jData)
 else:
-    # Didn't get an error! Print out the returned values:
+    # Didn't get an error! removing the comment below prints the "raw" API return:
     #print(jData)
-    # and then as a nice touch - format them into something more human readable:
+    # and then as a nice touch - this formats them into something more human readable:
     for key in jData:
         print ("Latitude = " + str(jData['location']['lat']))
         print ("Longitude = " + str(jData['location']['lng']))
