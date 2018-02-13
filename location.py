@@ -25,7 +25,9 @@ def cmdline(command):
     )
     return process.communicate()[0]
 
-print (cmdline('wpa_cli -i wlan0 scan_results'))
+sLANs = cmdline('wpa_cli -i wlan0 scan_results')
+splitLAN = split(sLANs, "\t")
+print (splitLAN)
 #sLANs = os.system('wpa_cli -i wlan0 scan_results')
 # print(sLANs)
 
