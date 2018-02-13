@@ -39,14 +39,16 @@ p = re.compile(r'(?:[0-9a-fA-F]:?){12}')
 test_str = sLANs
 sLANs = re.findall(p, test_str)
 # Another debug print if you need it (should be a list of MAC addrs with a "," between:
-print (type(sLANs))
+#print (type(sLANs))
+
+for macs in sLANs:
+    print(macs)
+
 
 # first open the JSON format
 theString = """{
  "wlan": ["""
 
-my_list = sLANs.split(",")
-print (my_list)
 
 
 # lastly close the JSON
