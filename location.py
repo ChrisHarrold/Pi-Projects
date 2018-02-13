@@ -29,7 +29,7 @@ def cmdline(command):
 sLANs = cmdline('wpa_cli -i wlan0 scan_results')
 sLANs = sLANs.decode('utf-8')
 
-X = '([a-fA-F0-9]{2}[:|\-]?){6}' # this is the regex
+X = '''([a-fA-F0-9]{2}[:|\-]?){6}''' # this is the regex
 for s in sLANs:
     a = re.compile(X).search(s)
     if a:
