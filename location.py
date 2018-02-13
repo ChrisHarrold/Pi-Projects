@@ -54,9 +54,13 @@ for macs in sLANs:
     thecount = thecount + 1
     # If this is the last entry in the list of MAC addresses we need to change the format of the JSON a bit
     if thecount == last:
+        macs = macs.lstrip()
+        macs = macs.rstrip()
         theString = theString + """   {""" + macs + """}"""
     # All the internal lines have a "," between them except the very last one (handled above)
     else:
+        macs = macs.lstrip()
+        macs = macs.rstrip()
         theString = theString + """   {""" + macs + """},"""
 
 
@@ -67,6 +71,7 @@ theString = theString + """]
 # This last replace makes sure there are no linefeeds in our string (took a while to 
 # troubleshoot that one!)
 theString = theString.replace("\n", "")
+
 print(theString)
 
 # Now we make our API call:
