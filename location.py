@@ -40,7 +40,7 @@ test_str = sLANs
 sLANs = re.findall(p, test_str)
 sLANs = str(sLANs)
 # Another debug print if you need it (should be a list of MAC addrs with a "," between:
-print(sLANs)
+print (type(sLANs))
 
 # first open the JSON format
 theString = """{
