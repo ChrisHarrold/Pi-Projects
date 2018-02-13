@@ -3,7 +3,6 @@
 # is the radius of "uncertainty circle" (that blue ring around your dot on a phone map) 
 # from location in meters.
 
-
 # we will need these two libraries for handling the API request, and parsing the resultant JSON
 import requests
 import json
@@ -65,7 +64,6 @@ for macs in sLANs:
         macs = macs.rstrip()
         stra = '"mac": "{}"'.format(macs)
         theString = theString + """   {""" + stra + """},"""
-
 
 # last thing is to close the JSON so it is properly formatted
 theString = theString + """]
