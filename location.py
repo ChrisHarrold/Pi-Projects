@@ -30,7 +30,7 @@ def cmdline(command):
 X = '([a-fA-F0-9]{2}[:|\-]?){6}' # this is the regex
 
 
-sLANs = cmdline('wpa_cli -i wlan0 scan_results')
+sLANs = cmdline('wpa_cli -i wlan0 scan_results | grep -Eo ''([[:xdigit:]]{1,2}:){5}[[:xdigit:]]{1,2}''')
 sLANs = sLANs.decode('utf-8')
 #sLANs = sLANs.split('::', 1)[-1]
 
