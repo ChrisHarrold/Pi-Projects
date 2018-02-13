@@ -57,12 +57,12 @@ for macs in sLANs:
     if thecount == last:
         macs = macs.lstrip()
         macs = macs.rstrip()
-        theString = theString + """{"mac: """"" + macs + """""}"""
+        theString = theString + """{"mac: """"""""" + macs + """"}"""
     # All the internal lines have a "," between them except the very last one (handled above)
     else:
         macs = macs.lstrip()
         macs = macs.rstrip()
-        theString = theString + """{"mac: """"" + macs + """""}"""
+        theString = theString + """{"mac: """"""""" + macs + """"}"""
 
 
 # lastly close the JSON
