@@ -27,7 +27,7 @@ def cmdline(command):
     return process.communicate()[0]
 
 p = re.compile('''ur'(?:[0-9a-fA-F]:?){12}''')
-test_str = u + sLANs
+test_str = sLANs
 
 
 print(re.findall(p, test_str))
