@@ -76,7 +76,7 @@ jData = json.loads(response.content.decode('utf-8'))
 #print(jData)
 # I can quickly check if I goofed up by looking for a 404 error (I can expand this to include
 # all 400 and 500 series errors and even respond with the error)
-if '404' in str(jData):
+if 'description' in str(jData):
     # got an error so print the full payload returned from the API for troubleshooting
     print("you messed up the json, or it got a bad result:")
     print(jData)
