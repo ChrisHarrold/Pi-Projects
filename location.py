@@ -28,12 +28,11 @@ def cmdline(command):
 # These two commands get the list of networks and put them in a string:
 sLANs = cmdline('wpa_cli -i wlan0 scan_results')
 sLANs = sLANs.decode('utf-8')
+print(sLANs)
 
-X = '''([a-fA-F0-9]{2}[:|\-]?){6}''' # this is the regex
-for s in sLANs:
-    a = re.compile(X).search(s)
-    if a:
-        print (s[a.start(): a.end()])
+p = re.compile('''ur'(?:[0-9a-fA-F]:?){12}''')
+test_str = sLANs
+print(re.findall(p, test_str))
 
 
 # first open the JSON format
