@@ -16,6 +16,9 @@ data = ""
 url = 'https://pos.cit.api.here.com/positioning/v1/locate?app_id=MmLlTteK7aj3zF6eA0Tn&app_code=6-zloMGtPyAgc12gkQVzrA'
 headers = {'Content-type': 'application/json'}
 
+# counters and variables just for completness:
+theCount = 0
+
 # grab our list of wifi networks and split them into the JSON data format
 # Scan using wlan0
 def cmdline(command):
