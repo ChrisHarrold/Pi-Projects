@@ -39,16 +39,22 @@ p = re.compile(r'(?:[0-9a-fA-F]:?){12}')
 test_str = sLANs
 sLANs = re.findall(p, test_str)
 # Another debug print if you need it (should be a list of MAC addrs with a "," between:
-#print (type(sLANs))
-
-for macs in sLANs:
-    print(macs)
-
+#print (sLANs)
 
 # first open the JSON format
 theString = """{
  "wlan": ["""
 
+# Now we insert the MAC values into the string in the expected format:
+for macs in sLANs:
+    last = len(sLANs)
+        thecount = thecount + 1
+        # If this is the last entry in the list of MAC addresses we need to change the format of the JSON a bit
+        if thecount == last:
+            theString = theString + """   {""" + macs + """}"""
+        # All the internal lines have a "," between them except the very last one (handled above)
+        else:
+            theString = theString + """   {""" + macs + """},"""
 
 
 # lastly close the JSON
