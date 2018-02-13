@@ -37,7 +37,7 @@ sLANs = sLANs.decode('utf-8')
 for s in sLANs:
     a = re.compile(X).search(s)
     if a:
-        print s[a.start(): a.end()]
+        print (s[a.start(): a.end()])
 
 
 
