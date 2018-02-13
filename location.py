@@ -48,13 +48,13 @@ theString = """{
 # Now we insert the MAC values into the string in the expected format:
 for macs in sLANs:
     last = len(sLANs)
-        thecount = thecount + 1
-        # If this is the last entry in the list of MAC addresses we need to change the format of the JSON a bit
-        if thecount == last:
-            theString = theString + """   {""" + macs + """}"""
-        # All the internal lines have a "," between them except the very last one (handled above)
-        else:
-            theString = theString + """   {""" + macs + """},"""
+    thecount = thecount + 1
+    # If this is the last entry in the list of MAC addresses we need to change the format of the JSON a bit
+    if thecount == last:
+        theString = theString + """   {""" + macs + """}"""
+    # All the internal lines have a "," between them except the very last one (handled above)
+    else:
+        theString = theString + """   {""" + macs + """},"""
 
 
 # lastly close the JSON
