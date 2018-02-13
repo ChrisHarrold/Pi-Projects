@@ -49,20 +49,6 @@ my_string = sLANs
 my_list = my_string.split(",")
 print (my_list)
 
-# Now read in the list of MAC address values
-
-    for line in lines:
-        line = line.rstrip("\n")
-        thecount = thecount + 1
-        if thecount == last:
-            #print id(line),id(last)
-            a = line
-            stra = '"mac": "{}"'.format(a)
-            theString = theString + """   {""" + stra + """}"""
-        else:
-            a = line
-            stra = '"mac": "{}"'.format(a)
-            theString = theString + """   {""" + stra + """},"""
 
 # lastly close the JSON
 theString = theString + """]
