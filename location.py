@@ -9,6 +9,7 @@ import requests
 import json
 # this one is for getting the wifi mac addresses
 from subprocess import PIPE, Popen
+import re
 
 # Define the things we need for our API call - this is unique to each API
 data = ""
@@ -27,6 +28,7 @@ def cmdline(command):
 
 sLANs = cmdline('wpa_cli -i wlan0 scan_results')
 sLANs = sLANs.decode('utf-8')
+sLANs = re.sub('\n', '::')
 splitLAN = sLANs.split("\t")
 print (splitLAN)
 #sLANs = os.system('wpa_cli -i wlan0 scan_results')
