@@ -53,6 +53,7 @@ for macs in sLANs:
     last = len(sLANs)
     thecount = thecount + 1
     # If this is the last entry in the list of MAC addresses we need to change the format of the JSON a bit
+    print repr(macs)
     if thecount == last:
         macs = macs.lstrip()
         macs = macs.rstrip()
