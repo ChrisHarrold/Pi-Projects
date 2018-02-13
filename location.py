@@ -53,7 +53,7 @@ for macs in sLANs:
     last = len(sLANs)
     thecount = thecount + 1
     # If this is the last entry in the list of MAC addresses we need to change the format of the JSON a bit
-    print (repr(macs))
+    #print (repr(macs))
     if thecount == last:
         macs = macs.lstrip()
         macs = macs.rstrip()
@@ -75,13 +75,13 @@ theString = theString + """]
 # troubleshoot that one!)
 theString = theString.replace("\n", "")
 
-print(theString)
+#print(theString)
 
 # Now we make our API call:
 response = requests.post(url, data=theString, headers=headers)
 # And load the returned JSON into a dict object:
 jData = json.loads(response.content.decode('utf-8'))
-print(jData)
+#print(jData)
 # I can quickly check if I goofed up by looking for a 404 error (I can expand this to include
 # all 400 and 500 series errors and even respond with the error)
 
