@@ -45,12 +45,12 @@ sLANs = re.findall(p, test_str)
 theString = """{
  "wlan": ["""
 
+my_string = sLANs
+my_list = my_string.split(",")
+print (my_list)
+
 # Now read in the list of MAC address values
-with open("list.csv") as f: # list file is a list of mac addresses, 1 per line
-    lines = f.readlines()
-    last = int(len(lines))
-    last = last + 1
-    thecount = 1
+
     for line in lines:
         line = line.rstrip("\n")
         thecount = thecount + 1
