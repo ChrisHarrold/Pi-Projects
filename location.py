@@ -32,18 +32,7 @@ sLANs = sLANs.decode('utf-8')
 
 p = re.compile('''ur'(?:[0-9a-fA-F]:?){12}''')
 test_str = sLANs
-
-
 print(re.findall(p, test_str))
-
-
-X = '([a-fA-F0-9]{2}[:|\-]?){6}' # this is the regex
-
-for s in sLANs:
-    a = re.compile(X).search(s)
-    if a:
-        print (s[a.start(): a.end()])
-
 
 
 
@@ -77,13 +66,13 @@ theString = theString + """]
 # This last replace makes sure there are no linefeeds in our string (took a while to 
 # troubleshoot that one!)
 theString = theString.replace("\n", "")
-print(theString)
+#print(theString)
 
 # Now we make our API call:
 response = requests.post(url, data=theString, headers=headers)
 # And load the returned JSON into a dict object:
 jData = json.loads(response.content.decode('utf-8'))
-print(jData)
+#print(jData)
 # I can quickly check if I goofed up by looking for a 404 error (I can expand this to include
 # all 400 and 500 series errors and even respond with the error)
 if '404' in str(jData):
