@@ -29,6 +29,8 @@ def cmdline(command):
 sLANs = cmdline('wpa_cli -i wlan0 scan_results')
 sLANs = sLANs.decode('utf-8')
 #sLANs = sLANs.split('::', 1)[-1]
+p = re.compile(ur'(?:[0-9a-fA-F]:?){12}')
+sLANs = re.findall(p, sLANs)
 print (sLANs)
 #sLANs = os.system('wpa_cli -i wlan0 scan_results')
 # print(sLANs)
