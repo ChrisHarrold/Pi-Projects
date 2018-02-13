@@ -18,11 +18,21 @@ headers = {'Content-type': 'application/json'}
 
 # grab our list of wifi networks and split them into the JSON data format
 # Scan using wlan0
+def cmdline(command):
+    process = Popen(
+        args=command,
+        stdout=PIPE,
+        shell=True
+    )
+    return process.communicate()[0]
+
 sLANs = cmdline('wpa_cli -i wlan0 scan_results')
 sLANs = sLANs.decode('utf-8')
 
+
 p = re.compile('''ur'(?:[0-9a-fA-F]:?){12}''')
 test_str = sLANs
+
 
 print(re.findall(p, test_str))
 
