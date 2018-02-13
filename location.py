@@ -26,16 +26,20 @@ def cmdline(command):
     )
     return process.communicate()[0]
 
+
+X = '([a-fA-F0-9]{2}[:|\-]?){6}' # this is the regex
+
+
 sLANs = cmdline('wpa_cli -i wlan0 scan_results')
 sLANs = sLANs.decode('utf-8')
 #sLANs = sLANs.split('::', 1)[-1]
-regex = r"([0-9a-fA-F]:?){12}"
-subst = ""
-# You can manually specify the number of replacements by changing the 4th argument
-result = re.sub(regex, subst, sLANs, 0, re.IGNORECASE)
-print (result)
-#sLANs = os.system('wpa_cli -i wlan0 scan_results')
-# print(sLANs)
+
+for s in sLANs:
+    a = re.compile(X).search(s)
+    if a:
+        print s[a.start(): a.end()]
+
+
 
 
 # first open the JSON format
