@@ -16,31 +16,6 @@ data = ""
 url = 'https://pos.cit.api.here.com/positioning/v1/locate?app_id=MmLlTteK7aj3zF6eA0Tn&app_code=6-zloMGtPyAgc12gkQVzrA'
 headers = {'Content-type': 'application/json'}
 
-# grab our list of wifi networks and split them into the JSON data format
-# Scan using wlan0
-def cmdline(command):
-    process = Popen(
-        args=command,
-        stdout=PIPE,
-        shell=True
-    )
-    return process.communicate()[0]
-# These two commands get the list of networks and put them in a string:
-sLANs = cmdline('wpa_cli -i wlan0 scan_results')
-sLANs = sLANs.decode('utf-8')
-# you can see the raw string below if you remove the comment it is formatted with \t and \n
-# if you decide to change it to do other things, make sure you use a strip or replace:
-#print(sLANs)
-
-# Now we take that string, and pull out just the MAC addresses - this took me many days to find
-# and figure out. Special thanks to the French guy fro Thalys on StackOverflow. Not for the answer, 
-# but because he was a douche (that's French for asshat) he pushed me to find the answer on my own.
-p = re.compile(r'(?:[0-9a-fA-F]:?){12}')
-test_str = sLANs
-sLANs = re.findall(p, test_str)
-# Another debug print if you need it (should be a list of MAC addrs with a "," between:
-#print(sLANs)
-
 # first open the JSON format
 theString = """{
  "wlan": ["""
