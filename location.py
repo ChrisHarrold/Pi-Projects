@@ -9,6 +9,7 @@ import requests
 import json
 # this one is for getting the wifi mac addresses
 from subprocess import PIPE, Popen
+import string
 
 # Define the things we need for our API call - this is unique to each API
 data = ""
