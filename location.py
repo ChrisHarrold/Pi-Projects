@@ -38,6 +38,7 @@ sLANs = sLANs.decode('utf-8')
 p = re.compile(r'(?:[0-9a-fA-F]:?){12}')
 test_str = sLANs
 sLANs = re.findall(p, test_str)
+sLANs = str(sLANs)
 # Another debug print if you need it (should be a list of MAC addrs with a "," between:
 #print(sLANs)
 
@@ -45,8 +46,7 @@ sLANs = re.findall(p, test_str)
 theString = """{
  "wlan": ["""
 
-my_string = sLANs
-my_list = my_string.split(",")
+my_list = sLANs.split(",")
 print (my_list)
 
 
