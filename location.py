@@ -30,7 +30,7 @@ sLANs = cmdline('wpa_cli -i wlan0 scan_results')
 sLANs = sLANs.decode('utf-8')
 print(sLANs)
 
-p = re.compile(ur'(?:[0-9a-fA-F]:?){12}''')
+p = re.compile(ur'(?:[0-9a-fA-F]:?){12}')
 test_str = sLANs
 re.findall(p, test_str)
 
