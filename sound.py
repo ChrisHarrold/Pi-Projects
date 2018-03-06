@@ -18,16 +18,17 @@ sensor_in = 18
 red_led = 21
 green_led = 20
 
-#Simple sting for printing an output on detection - can be removed
+#Simple string for printing an output on detection - can be removed
 Is_Loud = "No"
 
 #various counters used for determining the thresholds for sensitivity and detection
 #as well as the time of the loop and frequency for debugging
 Loud_Count = 0
-loop_count = 0
 per_detected = 0
 time_loop = 15
 
+# loop count is used in the non-service example for controlling how long the rpogram runs.
+loop_count = 0
 # Max loop is determined by the tuning exercise I describe in my blog video
 # at linkedin.com/in/chrisharrold - look for the post on detection tuning
 max_loop = 30000
@@ -77,15 +78,15 @@ try:
 	#	
 	# You can remove this version once the sensitivity is reliable:
 
-	# t_end = time.time() + time_loop
-	# while time.time() < t_end:
+	t_end = time.time() + time_loop
+	while time.time() < t_end:
 	
-	# This version simply loops for eternity unless ctrl-c is pressed
+	# Using this while statement version simply loops for eternity unless ctrl-c is pressed
 	# and should be your "production" version of the loop based on your
 	# tuning results and the length of the loop that matches your sensitivity needs
 	# my happy default is 30k loops or about 5 seconds:
 	
-	while loop_count < max_loop:
+	# while loop_count < max_loop:
 
 	# Now we get to the actual loop and start detecting sound
 		
