@@ -14,7 +14,7 @@ sensor_in = 18
 red_led = 21
 green_led = 20
 
-#Simple sting for printing an output on detection - can be removed for quiet running
+#Simple string for printing an output on detection - can be removed for quiet running
 Is_Loud = "No"
 
 # Web output settings:
@@ -23,20 +23,20 @@ web_file = "/var/www/html/level.js"
 # Various counters used for determining the thresholds for sensitivity and detection
 # as well as the time of the loop and frequency for debugging
 Loud_Count = 0
-loop_count = 0
 per_detected = 0
 events_detected = 0
 time_loop = 15
 
 # Max loop is determined by the tuning exercise I describe in my blog video
 # at linkedin.com/in/chrisharrold - look for the post on detection tuning
+loop_count = 0
 max_loop = 30000
 
 # This value is the final threshold where the system will take action
 # it is the value of the number of times loud sound was detected
 # versus the number of times the sensor was polled. Unless
-# you are looking for spikes amidst loud noise, this number will be
-# likely be .01 or even significantly less
+# you are looking for spikes amidst loud noise, this number will
+# likely be .01 or even significantly smaller
 a_threshold = .01
 
 # How long between sound level checks - not required, but you 
