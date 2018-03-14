@@ -27,8 +27,8 @@ per_detected = 0
 events_detected = 0
 time_loop = 15
 
-# Max loop is determined by the tuning exercise I describe in my blog video
-# at linkedin.com/in/chrisharrold - look for the post on detection tuning
+# Max loop is determined by the tuning exercise and will depend heavily on your sensor
+# for the sensor I originally used, the max loop was 30000 to get consistent readings
 loop_count = 0
 max_loop = 30000
 
