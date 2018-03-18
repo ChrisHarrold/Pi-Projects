@@ -6,6 +6,7 @@ import math
 getcontext().prec = 4
 
 # I will be outputting to a website for a real-time view of noise detection events
+# for debugging you should leave this commented out
 # This is the placeholder code for that
 #with open('/var/www/html/sound.html', 'w') as the_file:
 #	the_file.write('<H1>This is more usefull stuff</H1>\n')
