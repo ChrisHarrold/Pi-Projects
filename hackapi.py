@@ -13,60 +13,24 @@ data = ""
 url = 'http://localhost:9080'
 headers = {'Content-type': 'application/xml'}
 
-# grab our list of wifi networks and split them into the JSON data format
+#include 192.168.7.208:9080/library/whatever.xx
 
-# will add r-pi python for collecting and stripping MAC addresses to a file here
 
-# first open the JSON format
-theString = """{
- "wlan": ["""
-
-# It is frankly next to impossible to manipulate clean JSON formatted strings in Python
-# The code below works on Mac OSX with an excel-based CSV. If you put this into another OS
-# or format it may or may not work. YMMV
-# Now read in the list of MAC address values
-with open("list.csv") as f: # list.csv is a list of mac addresses, 1 per line
-    lines = f.readlines()
-    last = lines[-1]
-    for line in lines:
-        line = line.rstrip("\n")
-        if line is last:
-            #print id(line),id(last)
-            a = line
-            stra = '"mac": "{}"'.format(a)
-            theString = theString + """   {""" + stra + """}"""
-        else:
-            a = line
-            stra = '"mac": "{}"'.format(a)
-            theString = theString + """   {""" + stra + """},"""
-
-# lastly close the JSON
-theString = theString + """]
-}"""
-
-# This last replace makes sure there are no linefeeds in our string (took a while to 
-# troubleshoot that one!)
-theString = theString.replace("\n", "")
-
-# Now we make our API call:
-response = requests.post(url, data=theString, headers=headers)
+response = requests.post(url, data="Hello!", headers=headers)
 # And load the returned JSON into a dict object:
-jData = json.loads(response.content)
+
 
 # I can quickly check if I goofed up by looking for a 404 error (I can expand this to include
 # all 400 and 500 series errors and even respond with the error)
-if '404' in str(jData):
+if '404' in str(response):
     # got an error so print the full payload returned from the API for troubleshooting
     print("you messed up the json, or it got a bad result:")
-    print(jData)
+    print(response)
 else:
     # Didn't get an error! Print out the returned values:
-    print(jData)
+    print(response)
     # and then as a nice touch - format them into something more human readable:
-    for key in jData:
-        print ("Latitude = " + str(jData['location']['lat']))
-        print ("Longitude = " + str(jData['location']['lng']))
-        print ("Accuracy = " + str(jData['location']['accuracy']))
+
 
 # from here, it is most likely that you would want to assign at a minimum the accuracy, but likely
 # also the lat and lng data to a variable for further processing - something like 
