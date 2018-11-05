@@ -10,7 +10,7 @@ import json
 
 # Define the things we need for our API call - this is unique to each API
 data = ""
-url = 'http://localhost:9080'
+url = 'http://192.168.80.248:9080'
 headers = {'Content-type': 'application/xml'}
 
 #include 192.168.7.208:9080/library/whatever.xx
